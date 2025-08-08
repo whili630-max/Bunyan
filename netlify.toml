@@ -2,17 +2,38 @@
   command = """
     # تنصيب Flutter SDK
     git clone https://github.com/flutter/flutter.git -b stable --depth 1
+    
+    # تعيين PATH بشكل صريح للتأكد من أنه يعمل في بيئة Netlify
     export PATH="$PATH:`pwd`/flutter/bin"
+    # تأكد من تثبيت الأدوات الضرورية
+    which flutter || echo "Flutter not found in PATH"
     
     # الإعداد الأولي لـ Flutter
-    flutter --version
-    flutter config --enable-web
-    flutter doctor
+    ./flutter/bin/flutter --version
+    ./flutter/bin/flutter config --enable-web
+    ./flutter/bin/flutter doctor -v
     
     # تثبيت التبعيات وبناء التطبيق
-    flutter pub get
-    flutter clean # تنظيف البناء السابق لتجنب مشاكل الكاش
-    flutter build web --release --base-href / --web-renderer canvaskit
+    ./flutter/bin/flutter pub get
+    ./flutter/bin/flutter clean # تنظيف البناء السابق لتجنب مشاكل الكاش
+    ./flutter/bin/flutter build web --release --base-href / --web-renderer canvaskit
+    
+    # تحقق من وجود مجلد النشر ومحتواه
+    ls -la build/web || echo "مجلد build/web غير موجود!"
+    [ -f build/web/index.html ] && echo "✓ ملف index.html موجود" || echo "✗ ملف index.html غير موجود!"
+    
+    # نسخ ملف _redirects بشكل صريح من المصدر إلى مجلد النشر
+    cat web/_redirects > build/web/_redirects
+    
+    # تأكد من أن index.html موجود في مجلد الجذر
+    cp build/web/index.html build/web/404.html
+    
+    # نسخ مجلدات الأصول من web إلى build/web إذا كانت موجودة
+    if [ -d web/assets ]; then
+      mkdir -p build/web/assets
+      cp -r web/assets/* build/web/assets/
+      echo "✓ تم نسخ مجلد assets"
+    fi
     
     # تأكد من وجود ملف _redirects وإنشاء قواعد إعادة التوجيه
     echo "/*    /index.html   200" > build/web/_redirects
@@ -65,6 +86,23 @@
 [build.environment]
   CI = "false"
   NODE_VERSION = "20"
+  
+[build.processing]
+  skip_processing = false
+  
+[build.processing.html]
+  pretty_urls = false
+  
+[build.processing.css]
+  bundle = false
+  minify = false
+  
+[build.processing.js]
+  bundle = false
+  minify = false
+  
+[build.processing.images]
+  compress = false
 
 # إضافة قواعد تخصيص لملفات الصور
 [[headers]]
