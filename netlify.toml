@@ -1,0 +1,68 @@
+[build]
+  command = """
+    git clone https://github.com/flutter/flutter.git -b stable --depth 1
+    export PATH="$PATH:`pwd`/flutter/bin"
+    flutter --version
+    flutter config --enable-web
+    flutter doctor
+    flutter pub get
+    flutter build web --release --base-href /
+    
+    # تأكد من وجود ملف _redirects وإنشاء قواعد إعادة التوجيه
+    echo "/*    /index.html   200" > build/web/_redirects
+    echo "/icons/*  /icons/:splat  200" >> build/web/_redirects
+    
+    # تأكد من وجود مجلدات الأيقونات وإنشائها
+    mkdir -p build/web/icons
+    
+    # إنشاء أيقونة 192×192 بشكل صريح (لون أخضر بسيط)
+    cat > build/web/icons/Icon-192.png << 'ICONEND'
+    iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAQAAAD9JmqAAAABz0lEQVR42u3dMU7DMACAUZ9iR07QPRcJiYkRiYUDdMsFOHHvDszMLAwwIBYWhgITaSs1JLF/rN+bqSRfGtJI/uyGAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD4l479fTlJ3bHXPrbZxCZ2u2aaHqMoryGmcY5rPMYye7v+dDJWh1jEZ/ZmjfM0XZVBGuItu9M4z5Zcfw8mr/1JY01wrQzqHNvszo2yVQZ7qHhz/13vulQqVPu8O3W9W5WKNVUGvbuYTyqUB/HVtnereK1QHtRVKLO7WFUoj662UR1LShXLA6OkgTYxkipeHWhjIpUqVAfmku9SdaA5kbL6QH0i6XDupErVgT6J1MzgxKhaHmhruY11nCOl9NOT6kRSqSYXTvUTiZ0NpK1YY3EgLxZHslbseB5Ii7PZlv1o4SQdxG/vL2Lu12zR3+nggJkk9bOFnlfb8VqzOgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAVmP/WE5Sd+x1im02sYnd7S5N1zGq8iF66RzXeIxl9nb9NkyUDrGIz+zNGudpuiqDNMRbdqdxniZV6u/B5LU/6UMJ1MqgzrHN7two5crAaYCeXUwnFcqD+Grbuw2vFcqDugoJC6kmprkPnAGVgUQGgUQGAwAAAAAAAACU/QBB4H2UlUQtuwAAAABJRU5ErkJggg==
+    ICONEND
+    
+    # إنشاء أيقونة 512×512 بشكل صريح (لون أخضر بسيط)
+    cat > build/web/icons/Icon-512.png << 'ICONEND'
+    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
+    ICONEND
+    
+    # نسخ flutter-init.js بشكل صريح
+    cat > build/web/flutter-init.js << 'JSEND'
+    // تعريف _flutter قبل استخدامه في الصفحة
+    window._flutter = window._flutter || {};
+    window._flutter.loader = window._flutter.loader || {};
+    window._flutter.loader.loadEntrypoint = window._flutter.loader.loadEntrypoint || function(config) {
+      // تحميل main.dart.js بشكل صريح
+      var scriptTag = document.createElement('script');
+      scriptTag.src = 'main.dart.js';
+      scriptTag.type = 'application/javascript';
+      document.body.appendChild(scriptTag);
+    };
+    JSEND
+    
+    # تعديل manifest.json لاستخدام المسار المطلق للأيقونات
+    sed -i 's#"src": "icons/#"src": "/#g' build/web/manifest.json
+    
+    # تعديل ملف index.html لإصلاح مشكلة _flutter وتحديث meta tags
+    sed -i 's/<meta name="apple-mobile-web-app-capable" content="yes">/<meta name="mobile-web-app-capable" content="yes">\\n  <meta name="apple-mobile-web-app-capable" content="yes">/g' build/web/index.html
+    sed -i '/<head>/a \\  <script src="flutter-init.js"><\\/script>' build/web/index.html
+    
+    # عرض محتويات ملف manifest.json بعد التعديل للتحقق
+    echo "=== محتوى manifest.json بعد التعديل ==="
+    cat build/web/manifest.json
+    
+    # عرض محتويات مجلد الأيقونات للتأكد
+    echo "=== محتويات مجلد الأيقونات ==="
+    ls -la build/web/icons/
+  """
+  publish = "build/web"
+
+[build.environment]
+  CI = "false"
+  NODE_VERSION = "18"
+
+# إضافة قواعد تخصيص لملفات الصور
+[[headers]]
+  for = "/icons/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+    Access-Control-Allow-Origin = "*"
