@@ -9,32 +9,43 @@ flutter pub get
 flutter build web --release --base-href /
 # تأكد من وجود ملف _redirects
 echo "/*    /index.html   200" > build/web/_redirects
-# تأكد من وجود الأيقونات
+# إنشاء الأيقونات (ملفات PNG)
 mkdir -p build/web/icons
-convert -size 192x192 xc:transparent build/web/icons/Icon-192.png || echo "Creating placeholder 192 icon"
-convert -size 512x512 xc:transparent build/web/icons/Icon-512.png || echo "Creating placeholder 512 icon"
-# كحل بديل إذا لم يعمل الأمر convert
-echo '<svg width="192" height="192" xmlns="http://www.w3.org/2000/svg"><rect width="192" height="192" fill="#00A651"/><text x="50%" y="50%" font-size="48" fill="#fff" text-anchor="middle" dominant-baseline="middle">B</text></svg>' > build/web/icons/Icon-192.png
-echo '<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg"><rect width="512" height="512" fill="#00A651"/><text x="50%" y="50%" font-size="128" fill="#fff" text-anchor="middle" dominant-baseline="middle">B</text></svg>' > build/web/icons/Icon-512.png
-# إنشاء الاسكربت اللازم لتهيئة _flutter
-cat <<EOT >> build/web/flutter_fix.js
+# إنشاء أيقونات PNG بسيطة باستخدام base64
+cat <<EOT > build/web/icons/Icon-192.png
+iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAMAAABlApw1AAAACVBMVEUAplEAAAD///+g8ry/AAAAA3RSTlP//wDXyg1BAAAASklEQVR42u3BAQ0AAADCIPuntscHFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACA5wEsEAAB1cW+6gAAAABJRU5ErkJggg==
+EOT
+cat <<EOT > build/web/icons/Icon-512.png
+iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAMAAADDpiTIAAAACVBMVEUAplEAAAD///+g8ry/AAAAA3RSTlP//wDXyg1BAAAASklEQVR42u3BAQ0AAADCIPuntscHFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACA5wEsEAAB1cW+6gAAAABJRU5ErkJggg==
+EOT
+# إصلاح ملف index.html للتعامل مع مشكلة _flutter وتحديث meta tags
+sed -i 's/<meta name="apple-mobile-web-app-capable" content="yes">/<meta name="mobile-web-app-capable" content="yes">\\n  <meta name="apple-mobile-web-app-capable" content="yes">/g' build/web/index.html
+# تأكد من أن flutter.js يتم تحميله قبل استخدام _flutter
+cat <<EOT > build/web/flutter-init.js
 window.addEventListener('load', function() {
+  // تهيئة _flutter إذا لم يكن موجودًا
   if (typeof _flutter === 'undefined') {
-    _flutter = { loader: {} };
-  }
-  if (_flutter.loader && !_flutter.loader.loadEntrypoint) {
-    _flutter.loader.loadEntrypoint = function(config) {
-      setTimeout(function() {
-        let scriptTag = document.createElement('script');
-        scriptTag.src = 'main.dart.js';
-        document.body.appendChild(scriptTag);
-      }, 100);
+    window._flutter = {
+      loader: {
+        loadEntrypoint: function(config) {
+          // تحميل main.dart.js
+          var scriptTag = document.createElement('script');
+          scriptTag.src = 'main.dart.js';
+          document.body.appendChild(scriptTag);
+        }
+      }
     };
   }
 });
 EOT
-# إضافة المرجع إلى الاسكربت في index.html
-echo '<script src="flutter_fix.js"></script>' >> build/web/index.html
+# إضافة script لتعريف _flutter في بداية الملف
+sed -i '/<head>/a \\  <script src="flutter-init.js"><\\/script>' build/web/index.html
+'''
+publish = "build/web"
+
+[build.environment]
+CI = "false"
+NODE_VERSION = "18"
 '''
 publish = "build/web"
 
