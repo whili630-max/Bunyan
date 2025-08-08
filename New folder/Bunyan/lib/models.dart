@@ -43,13 +43,14 @@ class User {
       institution: json['institution']?.toString(),
       verified: json['verified'] ?? false,
       phoneVerified: json['phoneVerified'] ?? false,
-      encryptedData: json['encryptedData'] != null 
+      encryptedData: json['encryptedData'] != null
           ? Map<String, String>.from(json['encryptedData'])
           : null,
-      createdAt: DateTime.tryParse(json['createdAt']?.toString() ?? '') ?? DateTime.now(),
+      createdAt: DateTime.tryParse(json['createdAt']?.toString() ?? '') ??
+          DateTime.now(),
       isActive: json['isActive'] ?? true,
-      lastLogin: json['lastLogin'] != null 
-          ? DateTime.tryParse(json['lastLogin']) 
+      lastLogin: json['lastLogin'] != null
+          ? DateTime.tryParse(json['lastLogin'])
           : null,
       profileImage: json['profileImage'],
       accessToken: json['accessToken'],
@@ -87,15 +88,18 @@ class User {
       institution: map['institution']?.toString(),
       verified: map['verified'] ?? false,
       phoneVerified: map['phone_verified'] ?? false,
-      encryptedData: map['encrypted_data'] != null 
+      encryptedData: map['encrypted_data'] != null
           ? Map<String, String>.from(map['encrypted_data'])
           : null,
-      createdAt: DateTime.tryParse(map['created_at']?.toString() ?? '') ?? DateTime.now(),
+      createdAt: DateTime.tryParse(map['created_at']?.toString() ?? '') ??
+          DateTime.now(),
       isActive: (map['is_active'] as int?) == 1,
-      lastLogin: map['last_login'] != null ? DateTime.tryParse(map['last_login'].toString()) : null,
+      lastLogin: map['last_login'] != null
+          ? DateTime.tryParse(map['last_login'].toString())
+          : null,
       profileImage: map['profile_image']?.toString(),
       accessToken: map['access_token']?.toString(),
-      permissions: map['permissions'] != null 
+      permissions: map['permissions'] != null
           ? Map<String, dynamic>.from(map['permissions'])
           : null,
     );
@@ -160,8 +164,10 @@ class Product {
       quantity: (map['quantity'] as int?) ?? 0,
       isAvailable: (map['is_available'] as int?) == 1,
       supplierId: map['supplier_id']?.toString() ?? '',
-      createdAt: DateTime.tryParse(map['created_at']?.toString() ?? '') ?? DateTime.now(),
-      updatedAt: DateTime.tryParse(map['updated_at']?.toString() ?? '') ?? DateTime.now(),
+      createdAt: DateTime.tryParse(map['created_at']?.toString() ?? '') ??
+          DateTime.now(),
+      updatedAt: DateTime.tryParse(map['updated_at']?.toString() ?? '') ??
+          DateTime.now(),
     );
   }
 
@@ -292,8 +298,10 @@ class UserSession {
       id: map['id']?.toString() ?? '',
       userId: map['user_id']?.toString() ?? '',
       token: map['token']?.toString() ?? '',
-      createdAt: DateTime.tryParse(map['created_at']?.toString() ?? '') ?? DateTime.now(),
-      expiresAt: DateTime.tryParse(map['expires_at']?.toString() ?? '') ?? DateTime.now(),
+      createdAt: DateTime.tryParse(map['created_at']?.toString() ?? '') ??
+          DateTime.now(),
+      expiresAt: DateTime.tryParse(map['expires_at']?.toString() ?? '') ??
+          DateTime.now(),
       isActive: (map['is_active'] as int?) == 1,
     );
   }

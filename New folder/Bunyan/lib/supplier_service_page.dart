@@ -6,7 +6,7 @@ import 'bunyan_database.dart';
 
 class SupplierServicePage extends StatefulWidget {
   final BunyanUser? supplierUser;
-  
+
   const SupplierServicePage({super.key, this.supplierUser});
 
   @override
@@ -17,7 +17,7 @@ class _SupplierServicePageState extends State<SupplierServicePage>
     with SingleTickerProviderStateMixin {
   final BunyanDatabaseHelper _database = BunyanDatabaseHelper();
   late TabController _tabController;
-  
+
   List<BuildingProduct> myProducts = [];
   List<Map<String, dynamic>> pendingQuotes = [];
   bool isLoading = true;
@@ -27,10 +27,10 @@ class _SupplierServicePageState extends State<SupplierServicePage>
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
-    
+
     // التحقق من صلاحية الوصول للبيانات
     _enforceAccessControl();
-    
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadTexts();
       _loadSupplierData();
@@ -38,9 +38,10 @@ class _SupplierServicePageState extends State<SupplierServicePage>
   }
 
   void _loadTexts() {
-    final languageManager = Provider.of<LanguageManager>(context, listen: false);
+    final languageManager =
+        Provider.of<LanguageManager>(context, listen: false);
     final isArabic = languageManager.currentLocale.languageCode == 'ar';
-    
+
     setState(() {
       texts = {
         'supplierService': isArabic ? 'خدمة الموردين' : 'Supplier Service',
@@ -63,9 +64,12 @@ class _SupplierServicePageState extends State<SupplierServicePage>
         'cancel': isArabic ? 'إلغاء' : 'Cancel',
         'delete': isArabic ? 'حذف' : 'Delete',
         'confirm': isArabic ? 'تأكيد' : 'Confirm',
-        'confirmDelete': isArabic ? 'هل تريد حذف هذا المنتج؟' : 'Do you want to delete this product?',
+        'confirmDelete': isArabic
+            ? 'هل تريد حذف هذا المنتج؟'
+            : 'Do you want to delete this product?',
         'noProducts': isArabic ? 'لا توجد منتجات' : 'No products',
-        'addFirstProduct': isArabic ? 'أضف أول منتج لك' : 'Add your first product',
+        'addFirstProduct':
+            isArabic ? 'أضف أول منتج لك' : 'Add your first product',
         'pendingQuotes': isArabic ? 'عروض أسعار معلقة' : 'Pending Quotes',
         'respondToQuote': isArabic ? 'الرد على العرض' : 'Respond to Quote',
         'acceptQuote': isArabic ? 'قبول العرض' : 'Accept Quote',
@@ -87,31 +91,33 @@ class _SupplierServicePageState extends State<SupplierServicePage>
       if (widget.supplierUser == null || widget.supplierUser!.id.isEmpty) {
         throw Exception('غير مصرح بالوصول - مستخدم غير موثق');
       }
-      
+
       // تحميل منتجات المورد الحالي فقط (تصفية أمنية)
       final allProducts = await _database.getAllProducts();
-      final filteredProducts = allProducts.where(
-        (product) => product.supplierId == widget.supplierUser!.id
-      ).toList();
-      
+      final filteredProducts = allProducts
+          .where((product) => product.supplierId == widget.supplierUser!.id)
+          .toList();
+
       // تحميل طلبات العروض الخاصة بهذا المورد فقط
       final allQuotes = await _database.getQuoteRequests();
-      final filteredQuotes = allQuotes.where(
-        (quote) => quote['supplierId'] == widget.supplierUser!.id
-      ).toList();
-      
+      final filteredQuotes = allQuotes
+          .where((quote) => quote['supplierId'] == widget.supplierUser!.id)
+          .toList();
+
       // إذا لم تكن هناك بيانات حقيقية، استخدم بيانات وهمية للعرض
-      final mockQuotes = filteredQuotes.isEmpty ? <Map<String, dynamic>>[
-        {
-          'id': '1',
-          'productName': 'أسمنت أبيض',
-          'clientName': 'أحمد محمد',
-          'quantity': '10 أكياس',
-          'message': 'نحتاج أسمنت أبيض عالي الجودة',
-          'supplierId': widget.supplierUser!.id
-        },
-      ] : filteredQuotes;
-      
+      final mockQuotes = filteredQuotes.isEmpty
+          ? <Map<String, dynamic>>[
+              {
+                'id': '1',
+                'productName': 'أسمنت أبيض',
+                'clientName': 'أحمد محمد',
+                'quantity': '10 أكياس',
+                'message': 'نحتاج أسمنت أبيض عالي الجودة',
+                'supplierId': widget.supplierUser!.id
+              },
+            ]
+          : filteredQuotes;
+
       setState(() {
         // استخدام المنتجات المصفاة أمنيًا فقط
         myProducts = filteredProducts;
@@ -210,8 +216,7 @@ class _SupplierServicePageState extends State<SupplierServicePage>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.inventory_2_outlined, 
-                 size: 64, color: Colors.grey[400]),
+            Icon(Icons.inventory_2_outlined, size: 64, color: Colors.grey[400]),
             const SizedBox(height: 16),
             Text(
               texts['noProducts'] ?? 'No products',
@@ -268,7 +273,8 @@ class _SupplierServicePageState extends State<SupplierServicePage>
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(product.description, maxLines: 2, overflow: TextOverflow.ellipsis),
+            Text(product.description,
+                maxLines: 2, overflow: TextOverflow.ellipsis),
             const SizedBox(height: 4),
             Row(
               children: [
@@ -281,15 +287,16 @@ class _SupplierServicePageState extends State<SupplierServicePage>
                 ),
                 const Spacer(),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                   decoration: BoxDecoration(
-                    color: product.isAvailable 
+                    color: product.isAvailable
                         ? Colors.green.withAlpha(26)
                         : Colors.red.withAlpha(26),
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: Text(
-                    product.isAvailable 
+                    product.isAvailable
                         ? texts['available'] ?? 'Available'
                         : texts['outOfStock'] ?? 'Out of Stock',
                     style: TextStyle(
@@ -320,7 +327,7 @@ class _SupplierServicePageState extends State<SupplierServicePage>
                   const Icon(Icons.delete, color: Colors.red),
                   const SizedBox(width: 8),
                   Text(texts['deleteProduct'] ?? 'Delete',
-                       style: const TextStyle(color: Colors.red)),
+                      style: const TextStyle(color: Colors.red)),
                 ],
               ),
               onTap: () => _showDeleteProductDialog(product),
@@ -344,8 +351,8 @@ class _SupplierServicePageState extends State<SupplierServicePage>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.request_quote_outlined, 
-                 size: 64, color: Colors.grey[400]),
+            Icon(Icons.request_quote_outlined,
+                size: 64, color: Colors.grey[400]),
             const SizedBox(height: 16),
             Text(
               'لا توجد عروض أسعار معلقة',
@@ -440,7 +447,8 @@ class _SupplierServicePageState extends State<SupplierServicePage>
     );
   }
 
-  Widget _buildStatCard(String value, String label, IconData icon, Color color) {
+  Widget _buildStatCard(
+      String value, String label, IconData icon, Color color) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -481,21 +489,24 @@ class _SupplierServicePageState extends State<SupplierServicePage>
   void _showProductDialog({BuildingProduct? product}) {
     final isEditing = product != null;
     final nameController = TextEditingController(text: product?.name ?? '');
-    final descController = TextEditingController(text: product?.description ?? '');
+    final descController =
+        TextEditingController(text: product?.description ?? '');
     final priceController = TextEditingController(
       text: product?.price.toString() ?? '',
     );
     final unitController = TextEditingController(text: product?.unit ?? '');
-    final specsController = TextEditingController(text: product?.specifications ?? '');
-    
-    BuildingCategory selectedCategory = product?.category ?? BuildingCategory.concrete;
+    final specsController =
+        TextEditingController(text: product?.specifications ?? '');
+
+    BuildingCategory selectedCategory =
+        product?.category ?? BuildingCategory.concrete;
     bool isAvailable = product?.isAvailable ?? true;
 
     showDialog(
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setState) => AlertDialog(
-          title: Text(isEditing 
+          title: Text(isEditing
               ? (texts['editProduct'] ?? 'Edit Product')
               : (texts['addProduct'] ?? 'Add Product')),
           content: SingleChildScrollView(
@@ -605,7 +616,8 @@ class _SupplierServicePageState extends State<SupplierServicePage>
                 price: double.tryParse(priceController.text) ?? 0.0,
                 unit: unitController.text,
                 category: selectedCategory,
-                specifications: specsController.text.isEmpty ? null : specsController.text,
+                specifications:
+                    specsController.text.isEmpty ? null : specsController.text,
                 isAvailable: isAvailable,
               ),
               child: Text(texts['save'] ?? 'Save'),
@@ -621,7 +633,8 @@ class _SupplierServicePageState extends State<SupplierServicePage>
       context: context,
       builder: (context) => AlertDialog(
         title: Text(texts['confirm'] ?? 'Confirm'),
-        content: Text(texts['confirmDelete'] ?? 'Do you want to delete this product?'),
+        content: Text(
+            texts['confirmDelete'] ?? 'Do you want to delete this product?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
@@ -666,7 +679,9 @@ class _SupplierServicePageState extends State<SupplierServicePage>
 
     try {
       final product = BuildingProduct(
-        id: isEditing ? productId! : DateTime.now().millisecondsSinceEpoch.toString(),
+        id: isEditing
+            ? productId!
+            : DateTime.now().millisecondsSinceEpoch.toString(),
         name: name,
         description: description,
         price: price,

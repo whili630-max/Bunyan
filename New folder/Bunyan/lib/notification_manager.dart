@@ -4,8 +4,9 @@ import 'dart:convert';
 
 class NotificationManager extends ChangeNotifier {
   final List<BunyanNotification> _notifications = [];
-  List<BunyanNotification> get notifications => List.unmodifiable(_notifications);
-  
+  List<BunyanNotification> get notifications =>
+      List.unmodifiable(_notifications);
+
   // عدد الإشعارات غير المقروءة
   int get unreadCount => _notifications.where((n) => !n.isRead).length;
 
@@ -50,9 +51,7 @@ class NotificationManager extends ChangeNotifier {
   // حفظ الإشعارات محلياً
   Future<void> _saveNotifications() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final notificationsJson = _notifications
-        .map((n) => n.toJson())
-        .toList();
+    final notificationsJson = _notifications.map((n) => n.toJson()).toList();
     await prefs.setString('notifications', jsonEncode(notificationsJson));
   }
 
@@ -64,8 +63,7 @@ class NotificationManager extends ChangeNotifier {
       final List<dynamic> decoded = jsonDecode(notificationsJson);
       _notifications.clear();
       _notifications.addAll(
-        decoded.map((json) => BunyanNotification.fromJson(json)).toList()
-      );
+          decoded.map((json) => BunyanNotification.fromJson(json)).toList());
       notifyListeners();
     }
   }

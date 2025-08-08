@@ -37,7 +37,8 @@ class BunyanApp extends StatelessWidget {
           // دعم أفضل للغة العربية مع RTL
           builder: (context, child) {
             final locale = Localizations.localeOf(context);
-            final isRTL = locale.languageCode == 'ar' || locale.languageCode == 'ur';
+            final isRTL =
+                locale.languageCode == 'ar' || locale.languageCode == 'ur';
             return Directionality(
               textDirection: isRTL ? TextDirection.rtl : TextDirection.ltr,
               child: child!,
@@ -66,7 +67,7 @@ class AccountTypeSelectionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
-    
+
     return Scaffold(
       appBar: AppBar(
         title: Text(localizations.selectAccountType),
@@ -122,7 +123,8 @@ class AccountTypeSelectionPage extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const AdminDashboard()),
+                      MaterialPageRoute(
+                          builder: (context) => const AdminDashboard()),
                     );
                   },
                 ),

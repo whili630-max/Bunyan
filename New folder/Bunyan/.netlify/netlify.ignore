@@ -1,0 +1,10 @@
+# Ignore files and folders that don't affect the build
+.github/
+.vscode/
+android/
+ios/
+test/
+README.md
+*.md
+*.txt
+*.log

@@ -1,0 +1,14 @@
+[[plugins]]
+  package = "netlify-plugin-flutter"
+
+[plugins.inputs]
+  channel = "stable"
+
+[build]
+  command = "flutter build web --release"
+  publish = "build/web"
+
+# Environment variables for all deploy contexts
+[build.environment]
+  CI = "false"
+  NODE_VERSION = "22.0.0"

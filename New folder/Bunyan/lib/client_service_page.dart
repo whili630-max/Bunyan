@@ -288,7 +288,7 @@ class _ClientServicePageState extends State<ClientServicePage> {
           });
           _filterProducts();
         },
-        selectedColor: const Color(0x331976D2),  // 0x33 is 20% opacity
+        selectedColor: const Color(0x331976D2), // 0x33 is 20% opacity
         checkmarkColor: const Color(0xFF1976D2),
       ),
     );
@@ -375,8 +375,10 @@ class _ClientServicePageState extends State<ClientServicePage> {
                                   horizontal: 8, vertical: 2),
                               decoration: BoxDecoration(
                                 color: product.isAvailable
-                                    ? const Color(0x1A4CAF50)  // Green with 10% opacity
-                                    : const Color(0x1AF44336),  // Red with 10% opacity
+                                    ? const Color(
+                                        0x1A4CAF50) // Green with 10% opacity
+                                    : const Color(
+                                        0x1AF44336), // Red with 10% opacity
                                 borderRadius: BorderRadius.circular(4),
                               ),
                               child: Text(

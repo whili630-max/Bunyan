@@ -20,28 +20,29 @@ class MockDatabase {
   static void addQuoteRequest(QuoteRequest request) {
     quoteRequests.add(request);
   }
-  
+
   // تحديث حالة التحقق للمستخدم (الطريقة القديمة للتوافق مع الكود القديم)
   static void updateUserVerification(String userId, bool isVerified) {
     updateUserVerificationStatus(userId, isVerified, 'email');
   }
-  
+
   // تحديث حالة التحقق للمستخدم (طريقة محسنة تدعم التحقق من البريد والهاتف)
-  static void updateUserVerificationStatus(String userId, bool isVerified, String verificationType) {
+  static void updateUserVerificationStatus(
+      String userId, bool isVerified, String verificationType) {
     final userIndex = users.indexWhere((u) => u.id == userId);
     if (userIndex != -1) {
       final user = users[userIndex];
-      
+
       // تحديد نوع التحقق (بريد إلكتروني أو هاتف)
       bool updatedEmailVerified = user.verified;
       bool updatedPhoneVerified = user.phoneVerified;
-      
+
       if (verificationType == 'email') {
         updatedEmailVerified = isVerified;
       } else if (verificationType == 'phone') {
         updatedPhoneVerified = isVerified;
       }
-      
+
       // إنشاء مستخدم جديد مع تحديث حالة التحقق لأن النموذج غير قابل للتعديل
       final updatedUser = User(
         id: user.id,
@@ -60,12 +61,12 @@ class MockDatabase {
         accessToken: user.accessToken,
         permissions: user.permissions,
       );
-      
+
       // استبدال المستخدم القديم بالمستخدم المحدث
       users[userIndex] = updatedUser;
     }
   }
-  
+
   // البحث عن مستخدم عن طريق البريد الإلكتروني
   static User? getUserByEmail(String email) {
     try {

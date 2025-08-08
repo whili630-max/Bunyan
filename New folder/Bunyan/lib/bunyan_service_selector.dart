@@ -38,32 +38,35 @@ class _BunyanServiceSelectorState extends State<BunyanServiceSelector> {
   }
 
   void _loadTexts() {
-    final languageManager = Provider.of<LanguageManager>(context, listen: false);
+    final languageManager =
+        Provider.of<LanguageManager>(context, listen: false);
     final isArabic = languageManager.currentLocale.languageCode == 'ar';
-    
+
     setState(() {
       texts = {
         'appTitle': isArabic ? 'بنيان' : 'Bunyan',
         'selectService': isArabic ? 'اختر الخدمة' : 'Select Service',
-        'chooseService': isArabic ? 'اختر الخدمة التي تريد الوصول إليها:' : 'Choose the service you want to access:',
+        'chooseService': isArabic
+            ? 'اختر الخدمة التي تريد الوصول إليها:'
+            : 'Choose the service you want to access:',
         'client': isArabic ? 'عميل' : 'Client',
         'supplier': isArabic ? 'مورد' : 'Supplier',
         'transporter': isArabic ? 'ناقل' : 'Transporter',
         'contractor': isArabic ? 'مقاول' : 'Contractor',
         'admin': isArabic ? 'مدير' : 'Admin',
-        'clientDesc': isArabic 
+        'clientDesc': isArabic
             ? 'البحث عن مواد البناء وطلب الخدمات وإدارة المشاريع'
             : 'Search for building materials, request services and manage projects',
-        'supplierDesc': isArabic 
+        'supplierDesc': isArabic
             ? 'إدارة المنتجات والمخزون، معالجة الطلبات، والتفاعل مع العملاء'
             : 'Manage products and inventory, process orders, and interact with customers',
-        'transporterDesc': isArabic 
+        'transporterDesc': isArabic
             ? 'توفير خدمات النقل والتريلات للمواد الثقيلة والشحنات'
             : 'Provide transportation and trailer services for heavy materials and shipments',
-        'contractorDesc': isArabic 
+        'contractorDesc': isArabic
             ? 'إدارة المشاريع الإنشائية والإشراف على التنفيذ'
             : 'Manage construction projects and supervise implementation',
-        'adminDesc': isArabic 
+        'adminDesc': isArabic
             ? 'إدارة المنصة والمستخدمين ومراقبة الأداء والإحصائيات'
             : 'Manage platform, users, monitor performance and statistics',
       };
@@ -163,7 +166,7 @@ class _BunyanServiceSelectorState extends State<BunyanServiceSelector> {
                         borderRadius: BorderRadius.circular(50),
                         boxShadow: const [
                           BoxShadow(
-                            color: Color(0x1A000000),  // 0x1A is 10% opacity
+                            color: Color(0x1A000000), // 0x1A is 10% opacity
                             blurRadius: 10,
                             offset: Offset(0, 5),
                           ),
@@ -197,7 +200,7 @@ class _BunyanServiceSelectorState extends State<BunyanServiceSelector> {
                 ),
               ),
             ),
-            
+
             // Services Section
             Padding(
               padding: const EdgeInsets.all(20.0),
@@ -212,7 +215,6 @@ class _BunyanServiceSelectorState extends State<BunyanServiceSelector> {
                     '/client',
                   ),
                   const SizedBox(height: 16),
-                  
                   _buildServiceCard(
                     texts['supplier'] ?? 'مورد',
                     texts['supplierDesc'] ?? '',
@@ -222,7 +224,6 @@ class _BunyanServiceSelectorState extends State<BunyanServiceSelector> {
                     '/supplier',
                   ),
                   const SizedBox(height: 16),
-                  
                   _buildServiceCard(
                     texts['transporter'] ?? 'ناقل',
                     texts['transporterDesc'] ?? '',
@@ -232,7 +233,6 @@ class _BunyanServiceSelectorState extends State<BunyanServiceSelector> {
                     '/transporter',
                   ),
                   const SizedBox(height: 16),
-                  
                   _buildServiceCard(
                     texts['contractor'] ?? 'مقاول',
                     texts['contractorDesc'] ?? '',
@@ -242,7 +242,6 @@ class _BunyanServiceSelectorState extends State<BunyanServiceSelector> {
                     '/contractor',
                   ),
                   const SizedBox(height: 16),
-                  
                   _buildServiceCard(
                     texts['admin'] ?? 'مدير',
                     texts['adminDesc'] ?? '',
@@ -254,7 +253,7 @@ class _BunyanServiceSelectorState extends State<BunyanServiceSelector> {
                 ],
               ),
             ),
-            
+
             // Footer
             Container(
               width: double.infinity,

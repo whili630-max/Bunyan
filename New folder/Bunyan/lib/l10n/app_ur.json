@@ -177,5 +177,8 @@
   "validationRequired": "یہ فیلڈ ضروری ہے",
   "validationEmail": "غلط ای میل ایڈریس",
   "validationPassword": "پاس ورڈ کم از کم 8 حروف کا ہونا چاہیے",
-  "validationConfirmPassword": "پاس ورڈ مماثل نہیں ہیں"
+  "validationConfirmPassword": "پاس ورڈ مماثل نہیں ہیں",
+  
+  "buildWeb": "ویب کے لیے بنائیں",
+  "flutterBuildWeb": "فلٹر ویب بنائیں"
 }

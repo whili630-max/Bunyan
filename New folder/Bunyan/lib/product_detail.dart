@@ -9,7 +9,7 @@ import 'package:url_launcher/url_launcher.dart' as url_launcher;
 
 class ProductDetailPage extends StatefulWidget {
   final Product product;
-  
+
   const ProductDetailPage({required this.product, super.key});
 
   @override
@@ -25,7 +25,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   @override
   Widget build(BuildContext context) {
     final authManager = Provider.of<AuthManager>(context);
-    
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.product.name),
@@ -49,15 +49,17 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
                         return const Center(
-                          child: Icon(Icons.image_not_supported, size: 64, color: Colors.grey),
+                          child: Icon(Icons.image_not_supported,
+                              size: 64, color: Colors.grey),
                         );
                       },
                     )
                   : const Center(
-                      child: Icon(Icons.inventory_2_outlined, size: 64, color: Colors.grey),
+                      child: Icon(Icons.inventory_2_outlined,
+                          size: 64, color: Colors.grey),
                     ),
             ),
-            
+
             // تفاصيل المنتج
             Padding(
               padding: const EdgeInsets.all(16.0),
@@ -66,7 +68,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 children: [
                   Text(
                     widget.product.name,
-                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 8),
                   Text(
@@ -89,7 +92,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   ),
                   const SizedBox(height: 24),
                   const Divider(),
-                  
+
                   // نموذج طلب عرض سعر
                   Form(
                     key: _formKey,
@@ -98,26 +101,29 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       children: [
                         const Text(
                           'طلب عرض سعر:',
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 16),
                         TextFormField(
                           decoration: const InputDecoration(
                             labelText: 'تفاصيل الطلب',
                             border: OutlineInputBorder(),
-                            hintText: 'اذكر التفاصيل المطلوبة للمنتج، الكمية، المواصفات الخاصة...',
+                            hintText:
+                                'اذكر التفاصيل المطلوبة للمنتج، الكمية، المواصفات الخاصة...',
                           ),
                           maxLines: 4,
-                          validator: (value) =>
-                              value == null || value.isEmpty ? 'يرجى إدخال تفاصيل الطلب' : null,
+                          validator: (value) => value == null || value.isEmpty
+                              ? 'يرجى إدخال تفاصيل الطلب'
+                              : null,
                           onSaved: (value) => requestDetails = value ?? '',
                         ),
                         const SizedBox(height: 16),
-                        
+
                         // زر رفع الملف
                         OutlinedButton.icon(
                           icon: const Icon(Icons.upload_file),
-                          label: Text(selectedFile != null 
+                          label: Text(selectedFile != null
                               ? 'تم اختيار الملف: ${selectedFile!.split('/').last}'
                               : 'رفع ملف إضافي (اختياري)'),
                           onPressed: () {
@@ -127,9 +133,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             });
                           },
                         ),
-                        
+
                         const SizedBox(height: 24),
-                        
+
                         // زر إرسال الطلب
                         SizedBox(
                           width: double.infinity,
@@ -140,12 +146,14 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             ),
                             onPressed: _isSubmitting
                                 ? null
-                                : () => _submitQuoteRequest(context, authManager),
+                                : () =>
+                                    _submitQuoteRequest(context, authManager),
                             child: _isSubmitting
                                 ? const SizedBox(
                                     height: 20,
                                     width: 20,
-                                    child: CircularProgressIndicator(color: Colors.white),
+                                    child: CircularProgressIndicator(
+                                        color: Colors.white),
                                   )
                                 : const Text(
                                     'إرسال طلب عرض سعر',
@@ -153,22 +161,24 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                   ),
                           ),
                         ),
-                        
+
                         const SizedBox(height: 16),
-                        
+
                         // زر واتساب للتواصل المباشر
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton.icon(
                             icon: const Icon(Icons.chat, color: Colors.white),
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF25D366), // لون واتساب الأصلي
+                              backgroundColor:
+                                  const Color(0xFF25D366), // لون واتساب الأصلي
                               padding: const EdgeInsets.symmetric(vertical: 14),
                             ),
                             onPressed: () => _openWhatsAppChat(context),
                             label: const Text(
                               'تواصل عبر واتساب',
-                              style: TextStyle(fontSize: 16, color: Colors.white),
+                              style:
+                                  TextStyle(fontSize: 16, color: Colors.white),
                             ),
                           ),
                         ),
@@ -187,7 +197,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   void _submitQuoteRequest(BuildContext context, AuthManager authManager) {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      
+
       setState(() {
         _isSubmitting = true;
       });
@@ -206,29 +216,30 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         response: null,
         attachmentPath: selectedFile,
       );
-      
+
       // إضافة الطلب إلى قاعدة البيانات المؤقتة
       MockDatabase.addQuoteRequest(quoteRequest);
-      
+
       // تأخير صغير للمحاكاة
       Future.delayed(const Duration(milliseconds: 800), () {
         setState(() {
           _isSubmitting = false;
         });
-        
+
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('تم إرسال طلب عرض السعر بنجاح! سيتم التواصل معك قريباً'),
+            content:
+                Text('تم إرسال طلب عرض السعر بنجاح! سيتم التواصل معك قريباً'),
             duration: Duration(seconds: 3),
           ),
         );
-        
+
         // إعادة توجيه إلى صفحة "تم الإرسال"
         Navigator.pushReplacementNamed(context, '/request_sent', arguments: {
           'productName': widget.product.name,
           'requestDetails': requestDetails,
         });
-        
+
         // إعادة تعيين النموذج
         _formKey.currentState!.reset();
         setState(() {
@@ -238,16 +249,16 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       });
     }
   }
-  
+
   // فتح محادثة واتساب مع المورد
   void _openWhatsAppChat(BuildContext context) {
     // تأكد من وجود تفاصيل الطلب
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      
+
       // جلب بيانات المورد (في التطبيق الحقيقي سنحصل على رقم الهاتف من قاعدة البيانات)
       String supplierPhone = '+966500000000'; // رقم هاتف افتراضي للتجربة
-      
+
       // إعداد نص الرسالة
       String message = '''
 السلام عليكم،
@@ -256,13 +267,14 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 السعر المعروض: ${widget.product.price} ريال
 هل يمكننا مناقشة التفاصيل؟
       ''';
-      
+
       // تشفير الرسالة للاستخدام في URL
       String encodedMessage = Uri.encodeComponent(message);
-      
+
       // إنشاء رابط واتساب
-      final Uri whatsappUri = Uri.parse('https://wa.me/$supplierPhone?text=$encodedMessage');
-      
+      final Uri whatsappUri =
+          Uri.parse('https://wa.me/$supplierPhone?text=$encodedMessage');
+
       // فتح واتساب
       _launchWhatsapp(whatsappUri);
     } else {
@@ -275,13 +287,14 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       );
     }
   }
-  
+
   // فتح تطبيق واتساب
   Future<void> _launchWhatsapp(Uri uri) async {
     try {
       final bool canLaunch = await url_launcher.canLaunchUrl(uri);
       if (canLaunch) {
-        await url_launcher.launchUrl(uri, mode: url_launcher.LaunchMode.externalApplication);
+        await url_launcher.launchUrl(uri,
+            mode: url_launcher.LaunchMode.externalApplication);
       } else {
         throw Exception('لا يمكن فتح تطبيق واتساب');
       }

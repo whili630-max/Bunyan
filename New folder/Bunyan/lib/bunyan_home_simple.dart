@@ -23,36 +23,54 @@ class _BunyanHomePageState extends State<BunyanHomePage> {
   }
 
   void _loadTexts() {
-    final languageManager = Provider.of<LanguageManager>(context, listen: false);
+    final languageManager =
+        Provider.of<LanguageManager>(context, listen: false);
     final isArabic = languageManager.currentLocale.languageCode == 'ar';
-    
+
     texts = {
       'appTitle': isArabic ? 'بنيان' : 'Bunyan',
-      'appDescription': isArabic 
+      'appDescription': isArabic
           ? 'تطبيق إلكتروني يربط بين الأشخاص الراغبين في بناء منازل أو تنفيذ مشاريع إنشائية، وجميع مزودي الخدمات والمواد الأساسية في قطاع البناء'
           : 'Electronic application that connects people who want to build houses or implement construction projects, and all service providers and basic materials in the construction sector',
       'selectAccountType': isArabic ? 'اختر نوع الحساب' : 'Select Account Type',
-      'pleaseSelectAccount': isArabic ? 'يرجى اختيار نوع الحساب:' : 'Please select account type:',
+      'pleaseSelectAccount':
+          isArabic ? 'يرجى اختيار نوع الحساب:' : 'Please select account type:',
       'client': isArabic ? 'عميل' : 'Client',
       'supplier': isArabic ? 'مورد' : 'Supplier',
       'transporter': isArabic ? 'ناقل' : 'Transporter',
       'contractor': isArabic ? 'مقاول' : 'Contractor',
       'admin': isArabic ? 'مدير' : 'Admin',
-      'clientDesc': isArabic ? 'واجهة بسيطة، وصول سريع للخدمات، دعم مخصص' : 'Simple interface, quick access to services, dedicated support',
-      'supplierDesc': isArabic ? 'أدوات إدارة، معالجة الطلبات، إدارة المخزون' : 'Management tools, order processing, inventory management',
-      'transporterDesc': isArabic ? 'خدمات النقل والتريلات، إدارة الشحنات' : 'Transportation and trailer services, shipment management',
-      'contractorDesc': isArabic ? 'إدارة المشاريع والإشراف على التنفيذ' : 'Project management and implementation supervision',
-      'adminDesc': isArabic ? 'تحكم كامل، إدارة المستخدمين، تحليلات' : 'Full control, user management, analytics',
+      'clientDesc': isArabic
+          ? 'واجهة بسيطة، وصول سريع للخدمات، دعم مخصص'
+          : 'Simple interface, quick access to services, dedicated support',
+      'supplierDesc': isArabic
+          ? 'أدوات إدارة، معالجة الطلبات، إدارة المخزون'
+          : 'Management tools, order processing, inventory management',
+      'transporterDesc': isArabic
+          ? 'خدمات النقل والتريلات، إدارة الشحنات'
+          : 'Transportation and trailer services, shipment management',
+      'contractorDesc': isArabic
+          ? 'إدارة المشاريع والإشراف على التنفيذ'
+          : 'Project management and implementation supervision',
+      'adminDesc': isArabic
+          ? 'تحكم كامل، إدارة المستخدمين، تحليلات'
+          : 'Full control, user management, analytics',
       'getStarted': isArabic ? 'ابدأ الآن' : 'Get Started',
       'mainFeatures': isArabic ? 'المميزات الرئيسية' : 'Main Features',
-      'securitySystem': isArabic ? 'نظام حماية آمن' : 'Secure Protection System',
-      'productManagement': isArabic ? 'إدارة المنتجات والخدمات' : 'Product & Service Management',
-      'userPreferences': isArabic ? 'تفصيل الصلاحيات حسب نوع المستخدم' : 'User type specific permissions',
+      'securitySystem':
+          isArabic ? 'نظام حماية آمن' : 'Secure Protection System',
+      'productManagement':
+          isArabic ? 'إدارة المنتجات والخدمات' : 'Product & Service Management',
+      'userPreferences': isArabic
+          ? 'تفصيل الصلاحيات حسب نوع المستخدم'
+          : 'User type specific permissions',
       'loading': isArabic ? 'جاري التحميل...' : 'Loading...',
       'clientDashboard': isArabic ? 'لوحة تحكم العميل' : 'Client Dashboard',
       'supplierDashboard': isArabic ? 'لوحة تحكم المورد' : 'Supplier Dashboard',
-      'transporterDashboard': isArabic ? 'لوحة تحكم الناقل' : 'Transporter Dashboard',
-      'contractorDashboard': isArabic ? 'لوحة تحكم المقاول' : 'Contractor Dashboard',
+      'transporterDashboard':
+          isArabic ? 'لوحة تحكم الناقل' : 'Transporter Dashboard',
+      'contractorDashboard':
+          isArabic ? 'لوحة تحكم المقاول' : 'Contractor Dashboard',
       'adminDashboard': isArabic ? 'لوحة تحكم المشرف' : 'Admin Dashboard',
     };
   }
@@ -60,7 +78,7 @@ class _BunyanHomePageState extends State<BunyanHomePage> {
   @override
   Widget build(BuildContext context) {
     final languageManager = Provider.of<LanguageManager>(context);
-    
+
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
@@ -161,7 +179,7 @@ class _BunyanHomePageState extends State<BunyanHomePage> {
                       ),
                     ),
                     const SizedBox(height: 24),
-                    
+
                     // App Title & Description
                     Text(
                       texts['appTitle'] ?? 'بنيان',
@@ -185,7 +203,7 @@ class _BunyanHomePageState extends State<BunyanHomePage> {
                 ),
               ),
             ),
-            
+
             // Account Selection Section
             Padding(
               padding: const EdgeInsets.all(24.0),
@@ -211,47 +229,52 @@ class _BunyanHomePageState extends State<BunyanHomePage> {
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 32),
-                  
+
                   // Account Type Cards
                   _buildAccountTypeCard(
                     texts['client'] ?? 'عميل',
-                    texts['clientDesc'] ?? 'واجهة بسيطة، وصول سريع للخدمات، دعم مخصص',
+                    texts['clientDesc'] ??
+                        'واجهة بسيطة، وصول سريع للخدمات، دعم مخصص',
                     Icons.person,
                     UserRole.client,
                     const Color(0xFF1976D2),
                   ),
                   const SizedBox(height: 16),
-                  
+
                   _buildAccountTypeCard(
                     texts['supplier'] ?? 'مورد',
-                    texts['supplierDesc'] ?? 'أدوات إدارة، معالجة الطلبات، إدارة المخزون',
+                    texts['supplierDesc'] ??
+                        'أدوات إدارة، معالجة الطلبات، إدارة المخزون',
                     Icons.store,
                     UserRole.supplier,
                     const Color(0xFF388E3C),
                   ),
                   const SizedBox(height: 16),
-                  
+
                   _buildAccountTypeCard(
                     texts['transporter'] ?? 'ناقل',
-                    texts['transporterDesc'] ?? 'خدمات النقل والتريلات، إدارة الشحنات',
+                    texts['transporterDesc'] ??
+                        'خدمات النقل والتريلات، إدارة الشحنات',
                     Icons.local_shipping,
                     UserRole.transporter,
                     const Color(0xFFFF8F00),
                   ),
                   const SizedBox(height: 16),
-                  
+
                   _buildAccountTypeCard(
                     texts['contractor'] ?? 'مقاول',
-                    texts['contractorDesc'] ?? 'إدارة المشاريع والإشراف على التنفيذ',
+                    texts['contractorDesc'] ??
+                        'إدارة المشاريع والإشراف على التنفيذ',
                     Icons.engineering,
                     UserRole.contractor,
                     const Color(0xFF7B1FA2),
                   ),
                   const SizedBox(height: 16),
-                  
+
                   _buildAccountTypeCard(
                     texts['admin'] ?? 'مدير',
-                    texts['adminDesc'] ?? 'تحكم كامل، إدارة المستخدمين، تحليلات',
+                    texts['adminDesc'] ??
+                        'تحكم كامل، إدارة المستخدمين، تحليلات',
                     Icons.admin_panel_settings,
                     UserRole.admin,
                     const Color(0xFFD32F2F),
@@ -259,7 +282,7 @@ class _BunyanHomePageState extends State<BunyanHomePage> {
                 ],
               ),
             ),
-            
+
             // Continue Button
             if (selectedRole != null) ...[
               Padding(
@@ -284,7 +307,8 @@ class _BunyanHomePageState extends State<BunyanHomePage> {
                               height: 20,
                               child: CircularProgressIndicator(
                                 strokeWidth: 2,
-                                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                valueColor:
+                                    AlwaysStoppedAnimation<Color>(Colors.white),
                               ),
                             ),
                             const SizedBox(width: 12),
@@ -293,12 +317,13 @@ class _BunyanHomePageState extends State<BunyanHomePage> {
                         )
                       : Text(
                           texts['getStarted'] ?? 'ابدأ الآن',
-                          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          style: const TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                 ),
               ),
             ],
-            
+
             // Features Section
             Container(
               width: double.infinity,
@@ -315,7 +340,6 @@ class _BunyanHomePageState extends State<BunyanHomePage> {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  
                   Row(
                     children: [
                       Expanded(
@@ -329,23 +353,24 @@ class _BunyanHomePageState extends State<BunyanHomePage> {
                       Expanded(
                         child: _buildFeatureCard(
                           Icons.inventory_2,
-                          texts['productManagement'] ?? 'إدارة المنتجات والخدمات',
+                          texts['productManagement'] ??
+                              'إدارة المنتجات والخدمات',
                           const Color(0xFF388E3C),
                         ),
                       ),
                     ],
                   ),
                   const SizedBox(height: 16),
-                  
                   _buildFeatureCard(
                     Icons.people,
-                    texts['userPreferences'] ?? 'تفصيل الصلاحيات حسب نوع المستخدم',
+                    texts['userPreferences'] ??
+                        'تفصيل الصلاحيات حسب نوع المستخدم',
                     const Color(0xFFFF8F00),
                   ),
                 ],
               ),
             ),
-            
+
             // Bottom Notice
             Container(
               width: double.infinity,
@@ -376,9 +401,10 @@ class _BunyanHomePageState extends State<BunyanHomePage> {
     );
   }
 
-  Widget _buildAccountTypeCard(String title, String description, IconData icon, UserRole role, Color color) {
+  Widget _buildAccountTypeCard(String title, String description, IconData icon,
+      UserRole role, Color color) {
     final isSelected = selectedRole == role;
-    
+
     return Card(
       elevation: isSelected ? 8 : 2,
       shape: RoundedRectangleBorder(
@@ -432,8 +458,7 @@ class _BunyanHomePageState extends State<BunyanHomePage> {
                   ],
                 ),
               ),
-              if (isSelected)
-                Icon(Icons.check_circle, color: color, size: 24),
+              if (isSelected) Icon(Icons.check_circle, color: color, size: 24),
             ],
           ),
         ),
@@ -483,9 +508,9 @@ class _BunyanHomePageState extends State<BunyanHomePage> {
     try {
       // محاكاة تحميل البيانات
       await Future.delayed(const Duration(seconds: 1));
-      
+
       if (!mounted) return;
-      
+
       // التوجه لواجهة المستخدم المحددة
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
@@ -514,7 +539,7 @@ class _BunyanHomePageState extends State<BunyanHomePage> {
 // لوحة التحكم الموحدة
 class BunyanDashboard extends StatefulWidget {
   final UserRole userRole;
-  
+
   const BunyanDashboard({super.key, required this.userRole});
 
   @override
@@ -537,14 +562,17 @@ class _BunyanDashboardState extends State<BunyanDashboard> {
   }
 
   void _loadTexts() {
-    final languageManager = Provider.of<LanguageManager>(context, listen: false);
+    final languageManager =
+        Provider.of<LanguageManager>(context, listen: false);
     final isArabic = languageManager.currentLocale.languageCode == 'ar';
-    
+
     texts = {
       'clientDashboard': isArabic ? 'لوحة تحكم العميل' : 'Client Dashboard',
       'supplierDashboard': isArabic ? 'لوحة تحكم المورد' : 'Supplier Dashboard',
-      'transporterDashboard': isArabic ? 'لوحة تحكم الناقل' : 'Transporter Dashboard',
-      'contractorDashboard': isArabic ? 'لوحة تحكم المقاول' : 'Contractor Dashboard',
+      'transporterDashboard':
+          isArabic ? 'لوحة تحكم الناقل' : 'Transporter Dashboard',
+      'contractorDashboard':
+          isArabic ? 'لوحة تحكم المقاول' : 'Contractor Dashboard',
       'adminDashboard': isArabic ? 'لوحة تحكم المشرف' : 'Admin Dashboard',
       'buildingCategories': isArabic ? 'فئات البناء' : 'Building Categories',
       'plumbing': isArabic ? 'سباكة' : 'Plumbing',
@@ -659,7 +687,8 @@ class _BunyanDashboardState extends State<BunyanDashboard> {
                 children: [
                   Text(
                     texts['buildingCategories'] ?? 'فئات البناء',
-                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 16),
                   GridView.count(
@@ -667,12 +696,20 @@ class _BunyanDashboardState extends State<BunyanDashboard> {
                     physics: const NeverScrollableScrollPhysics(),
                     crossAxisCount: 3,
                     children: [
-                      _buildCategoryCard(texts['plumbing'] ?? 'سباكة', Icons.plumbing, BuildingCategory.plumbing),
-                      _buildCategoryCard(texts['electrical'] ?? 'كهرباء', Icons.electrical_services, BuildingCategory.electrical),
-                      _buildCategoryCard('خرسانة', Icons.foundation, BuildingCategory.concrete),
-                      _buildCategoryCard(texts['blocks'] ?? 'بلك', Icons.view_module, BuildingCategory.blocks),
-                      _buildCategoryCard(texts['steel'] ?? 'حديد', Icons.construction, BuildingCategory.steel),
-                      _buildCategoryCard(texts['tools'] ?? 'أدوات', Icons.build, BuildingCategory.tools),
+                      _buildCategoryCard(texts['plumbing'] ?? 'سباكة',
+                          Icons.plumbing, BuildingCategory.plumbing),
+                      _buildCategoryCard(
+                          texts['electrical'] ?? 'كهرباء',
+                          Icons.electrical_services,
+                          BuildingCategory.electrical),
+                      _buildCategoryCard('خرسانة', Icons.foundation,
+                          BuildingCategory.concrete),
+                      _buildCategoryCard(texts['blocks'] ?? 'بلك',
+                          Icons.view_module, BuildingCategory.blocks),
+                      _buildCategoryCard(texts['steel'] ?? 'حديد',
+                          Icons.construction, BuildingCategory.steel),
+                      _buildCategoryCard(texts['tools'] ?? 'أدوات', Icons.build,
+                          BuildingCategory.tools),
                     ],
                   ),
                 ],
@@ -710,13 +747,15 @@ class _BunyanDashboardState extends State<BunyanDashboard> {
                 ListView.builder(
                   padding: const EdgeInsets.all(16),
                   itemCount: products.length,
-                  itemBuilder: (context, index) => _buildProductCard(products[index]),
+                  itemBuilder: (context, index) =>
+                      _buildProductCard(products[index]),
                 ),
                 // الطلبات
                 ListView.builder(
                   padding: const EdgeInsets.all(16),
                   itemCount: orders.length,
-                  itemBuilder: (context, index) => _buildOrderCard(orders[index]),
+                  itemBuilder: (context, index) =>
+                      _buildOrderCard(orders[index]),
                 ),
                 // الإحصائيات
                 const Center(child: Text('الإحصائيات قيد التطوير')),
@@ -789,7 +828,8 @@ class _BunyanDashboardState extends State<BunyanDashboard> {
     return const Center(child: Text('لوحة تحكم المقاول قيد التطوير'));
   }
 
-  Widget _buildCategoryCard(String name, IconData icon, BuildingCategory category) {
+  Widget _buildCategoryCard(
+      String name, IconData icon, BuildingCategory category) {
     return Card(
       child: InkWell(
         onTap: () {
@@ -805,7 +845,9 @@ class _BunyanDashboardState extends State<BunyanDashboard> {
             children: [
               Icon(icon, size: 32, color: const Color(0xFF2E7D32)),
               const SizedBox(height: 8),
-              Text(name, textAlign: TextAlign.center, style: const TextStyle(fontSize: 12)),
+              Text(name,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 12)),
             ],
           ),
         ),
@@ -819,10 +861,12 @@ class _BunyanDashboardState extends State<BunyanDashboard> {
       child: ListTile(
         leading: CircleAvatar(
           backgroundColor: const Color(0xFF2E7D32),
-          child: Text(product.name.substring(0, 1), style: const TextStyle(color: Colors.white)),
+          child: Text(product.name.substring(0, 1),
+              style: const TextStyle(color: Colors.white)),
         ),
         title: Text(product.name),
-        subtitle: Text('${product.price} ${texts['sar'] ?? 'ريال'}/${product.unit}'),
+        subtitle:
+            Text('${product.price} ${texts['sar'] ?? 'ريال'}/${product.unit}'),
         trailing: Text(buildingCategoryNames[product.category] ?? ''),
       ),
     );
@@ -837,13 +881,15 @@ class _BunyanDashboardState extends State<BunyanDashboard> {
           child: const Icon(Icons.shopping_cart, color: Colors.white),
         ),
         title: Text('طلب #${order.id.substring(0, 8)}'),
-        subtitle: Text('${order.totalAmount} ${texts['sar'] ?? 'ريال'} - ${orderStatusNames[order.status]}'),
+        subtitle: Text(
+            '${order.totalAmount} ${texts['sar'] ?? 'ريال'} - ${orderStatusNames[order.status]}'),
         trailing: Text(order.createdAt.day.toString()),
       ),
     );
   }
 
-  Widget _buildStatCard(String title, String value, IconData icon, Color color) {
+  Widget _buildStatCard(
+      String title, String value, IconData icon, Color color) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -851,7 +897,9 @@ class _BunyanDashboardState extends State<BunyanDashboard> {
           children: [
             Icon(icon, size: 32, color: color),
             const SizedBox(height: 8),
-            Text(value, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            Text(value,
+                style:
+                    const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
             Text(title),
           ],
         ),

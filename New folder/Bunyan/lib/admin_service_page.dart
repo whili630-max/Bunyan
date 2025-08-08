@@ -365,7 +365,9 @@ class _AdminServicePageState extends State<AdminServicePage>
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                   decoration: BoxDecoration(
-                    color: _getUserRoleColor(company.type.toString().split('.').last).withOpacity(0.1),
+                    color: _getUserRoleColor(
+                            company.type.toString().split('.').last)
+                        .withOpacity(0.1),
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: Text(

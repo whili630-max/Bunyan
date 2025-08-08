@@ -11,7 +11,7 @@ import 'dashboard_admin.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   runApp(
     MultiProvider(
       providers: [
@@ -47,7 +47,8 @@ class BunyanApp extends StatelessWidget {
           // دعم أفضل للغة العربية مع RTL
           builder: (context, child) {
             final locale = Localizations.localeOf(context);
-            final isRTL = locale.languageCode == 'ar' || locale.languageCode == 'ur';
+            final isRTL =
+                locale.languageCode == 'ar' || locale.languageCode == 'ur';
             return Directionality(
               textDirection: isRTL ? TextDirection.rtl : TextDirection.ltr,
               child: child!,
@@ -66,10 +67,10 @@ class BunyanApp extends StatelessWidget {
             useMaterial3: true,
           ),
           // التحكم في الشاشة الأولى بناءً على حالة تسجيل الدخول
-          home: authManager.isLoading 
-              ? const SplashScreen() 
-              : authManager.isLoggedIn 
-                  ? _getDashboardForUser(authManager) 
+          home: authManager.isLoading
+              ? const SplashScreen()
+              : authManager.isLoggedIn
+                  ? _getDashboardForUser(authManager)
                   : const LoginPage(),
           debugShowCheckedModeBanner: false,
         );
@@ -109,9 +110,9 @@ class SplashScreen extends StatelessWidget {
             Text(
               'بنيان',
               style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).primaryColor,
-              ),
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).primaryColor,
+                  ),
             ),
             const SizedBox(height: 16),
             const Text(

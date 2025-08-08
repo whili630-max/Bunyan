@@ -528,7 +528,8 @@ class _LoginPageState extends State<LoginPage> {
           _navigateToDashboard();
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('خطأ في البريد الإلكتروني أو كلمة المرور')),
+            const SnackBar(
+                content: Text('خطأ في البريد الإلكتروني أو كلمة المرور')),
           );
         }
       });

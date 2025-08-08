@@ -18,7 +18,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   final _institutionController = TextEditingController();
-  
+
   String _selectedUserType = 'client';
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
@@ -36,7 +36,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Future<void> _handleRegister() async {
     if (!_formKey.currentState!.validate()) return;
-    
+
     if (!_acceptTerms) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -53,7 +53,9 @@ class _RegisterPageState extends State<RegisterPage> {
       email: _emailController.text.trim(),
       password: _passwordController.text,
       userType: _selectedUserType,
-      institution: _selectedUserType == 'supplier' ? _institutionController.text.trim() : null,
+      institution: _selectedUserType == 'supplier'
+          ? _institutionController.text.trim()
+          : null,
     );
 
     if (!mounted) return;
@@ -81,7 +83,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
-    
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('إنشاء حساب جديد'),
@@ -97,16 +99,16 @@ class _RegisterPageState extends State<RegisterPage> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const SizedBox(height: 20),
-                  
+
                   // اختيار نوع الحساب
                   Text(
                     localizations.selectAccountType,
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                          fontWeight: FontWeight.bold,
+                        ),
                   ),
                   const SizedBox(height: 16),
-                  
+
                   Row(
                     children: [
                       Expanded(
@@ -136,7 +138,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ],
                   ),
                   const SizedBox(height: 24),
-                  
+
                   // حقل الاسم
                   TextFormField(
                     controller: _nameController,
@@ -161,7 +163,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     },
                   ),
                   const SizedBox(height: 16),
-                  
+
                   // حقل البريد الإلكتروني
                   TextFormField(
                     controller: _emailController,
@@ -188,7 +190,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     },
                   ),
                   const SizedBox(height: 16),
-                  
+
                   // حقل المؤسسة (للموردين فقط)
                   if (_selectedUserType == 'supplier') ...[
                     TextFormField(
@@ -204,7 +206,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         fillColor: Colors.grey[50],
                       ),
                       validator: (value) {
-                        if (_selectedUserType == 'supplier' && 
+                        if (_selectedUserType == 'supplier' &&
                             (value == null || value.trim().isEmpty)) {
                           return 'يرجى إدخال اسم المؤسسة';
                         }
@@ -213,7 +215,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     const SizedBox(height: 16),
                   ],
-                  
+
                   // حقل كلمة المرور
                   TextFormField(
                     controller: _passwordController,
@@ -223,7 +225,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       prefixIcon: const Icon(Icons.lock_outlined),
                       suffixIcon: IconButton(
                         icon: Icon(
-                          _obscurePassword ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                          _obscurePassword
+                              ? Icons.visibility_outlined
+                              : Icons.visibility_off_outlined,
                         ),
                         onPressed: () {
                           setState(() {
@@ -252,7 +256,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     },
                   ),
                   const SizedBox(height: 16),
-                  
+
                   // تأكيد كلمة المرور
                   TextFormField(
                     controller: _confirmPasswordController,
@@ -262,7 +266,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       prefixIcon: const Icon(Icons.lock_outlined),
                       suffixIcon: IconButton(
                         icon: Icon(
-                          _obscureConfirmPassword ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                          _obscureConfirmPassword
+                              ? Icons.visibility_outlined
+                              : Icons.visibility_off_outlined,
                         ),
                         onPressed: () {
                           setState(() {
@@ -288,7 +294,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     },
                   ),
                   const SizedBox(height: 24),
-                  
+
                   // قبول الشروط
                   CheckboxListTile(
                     title: const Text('أوافق على الشروط والأحكام'),
@@ -301,7 +307,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     controlAffinity: ListTileControlAffinity.leading,
                   ),
                   const SizedBox(height: 32),
-                  
+
                   // زر التسجيل
                   ElevatedButton(
                     onPressed: authManager.isLoading ? null : _handleRegister,
@@ -319,11 +325,12 @@ class _RegisterPageState extends State<RegisterPage> {
                           )
                         : const Text(
                             'إنشاء الحساب',
-                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
                           ),
                   ),
                   const SizedBox(height: 16),
-                  
+
                   // رابط العودة لتسجيل الدخول
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

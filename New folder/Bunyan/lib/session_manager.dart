@@ -7,7 +7,8 @@ class SessionManager extends ChangeNotifier {
   SharedPreferences? _prefs;
   User? _currentUser;
   DateTime? _lastActivity;
-  static const int _sessionTimeout = 30; // الجلسة تنتهي بعد 30 دقيقة من عدم النشاط
+  static const int _sessionTimeout =
+      30; // الجلسة تنتهي بعد 30 دقيقة من عدم النشاط
   bool _isLocked = false;
 
   User? get currentUser => _currentUser;
@@ -38,10 +39,10 @@ class SessionManager extends ChangeNotifier {
   // حفظ بيانات المستخدم
   Future<void> saveUserSession(User user) async {
     if (_prefs == null) await initialize();
-    
+
     _currentUser = user;
     _lastActivity = DateTime.now();
-    
+
     await _prefs!.setString('user', jsonEncode(user.toJson()));
     await _saveLastActivity();
     notifyListeners();
@@ -50,7 +51,7 @@ class SessionManager extends ChangeNotifier {
   // تحميل بيانات المستخدم
   Future<void> loadSession() async {
     if (_prefs == null) await initialize();
-    
+
     final userJson = _prefs!.getString('user');
     if (userJson != null) {
       _currentUser = User.fromJson(jsonDecode(userJson));
@@ -59,14 +60,14 @@ class SessionManager extends ChangeNotifier {
     final lastActivityStr = _prefs!.getString('lastActivity');
     if (lastActivityStr != null) {
       _lastActivity = DateTime.parse(lastActivityStr);
-      
+
       // التحقق من انتهاء صلاحية الجلسة
       if (_isSessionExpired()) {
         await logout();
         return;
       }
     }
-    
+
     notifyListeners();
   }
 
@@ -92,14 +93,14 @@ class SessionManager extends ChangeNotifier {
   // تسجيل الخروج
   Future<void> logout() async {
     if (_prefs == null) await initialize();
-    
+
     _currentUser = null;
     _lastActivity = null;
     _isLocked = false;
-    
+
     await _prefs!.remove('user');
     await _prefs!.remove('lastActivity');
-    
+
     notifyListeners();
   }
 

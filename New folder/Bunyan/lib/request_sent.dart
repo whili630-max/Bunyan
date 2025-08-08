@@ -5,13 +5,13 @@ import 'animated_effects.dart';
 class RequestSentPage extends StatelessWidget {
   final String? productName;
   final String? requestDetails;
-  
+
   const RequestSentPage({this.productName, this.requestDetails, super.key});
 
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
-    
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -28,7 +28,7 @@ class RequestSentPage extends StatelessWidget {
                   // Success animation
                   AnimatedEffects.success(size: 200),
                   const SizedBox(height: 24),
-                  
+
                   // Success message
                   FadeInEffect(
                     delay: 500,
@@ -43,7 +43,7 @@ class RequestSentPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  
+
                   // Additional details
                   FadeInEffect(
                     delay: 1000,
@@ -60,16 +60,18 @@ class RequestSentPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 40),
-                  
+
                   // Back to dashboard button
                   FadeInEffect(
                     delay: 1500,
                     child: AnimatedButton(
                       onPressed: () {
-                        Navigator.pushReplacementNamed(context, '/client_dashboard');
+                        Navigator.pushReplacementNamed(
+                            context, '/client_dashboard');
                       },
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 32, vertical: 16),
                         decoration: BoxDecoration(
                           color: Colors.blue,
                           borderRadius: BorderRadius.circular(12),
@@ -85,7 +87,7 @@ class RequestSentPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  
+
                   // Browse more products button
                   FadeInEffect(
                     delay: 2000,

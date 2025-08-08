@@ -17,7 +17,7 @@ class _ProductsListPageState extends State<ProductsListPage> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
-    
+
     return Scaffold(
       appBar: AppBar(
         title: Text(localizations.productsList),
@@ -28,7 +28,8 @@ class _ProductsListPageState extends State<ProductsListPage> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const ProductFormPage()),
+                MaterialPageRoute(
+                    builder: (context) => const ProductFormPage()),
               ).then((_) => setState(() {})); // تحديث القائمة عند العودة
             },
           ),
@@ -40,7 +41,8 @@ class _ProductsListPageState extends State<ProductsListPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.inventory_2_outlined, size: 64, color: Colors.grey),
+                  const Icon(Icons.inventory_2_outlined,
+                      size: 64, color: Colors.grey),
                   const SizedBox(height: 16),
                   Text(
                     localizations.noProducts,
@@ -90,7 +92,8 @@ class _ProductsListPageState extends State<ProductsListPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ProductDetailPage(product: product),
+                            builder: (context) =>
+                                ProductDetailPage(product: product),
                           ),
                         );
                       },
@@ -104,7 +107,8 @@ class _ProductsListPageState extends State<ProductsListPage> {
                               child: Container(
                                 color: Colors.grey[200],
                                 child: const Center(
-                                  child: Icon(Icons.image_outlined, size: 50, color: Colors.grey),
+                                  child: Icon(Icons.image_outlined,
+                                      size: 50, color: Colors.grey),
                                 ),
                               ),
                             ),
@@ -115,7 +119,9 @@ class _ProductsListPageState extends State<ProductsListPage> {
                                 children: [
                                   Text(
                                     product.name,
-                                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -124,11 +130,13 @@ class _ProductsListPageState extends State<ProductsListPage> {
                                     product.description,
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                                    style: TextStyle(
+                                        fontSize: 12, color: Colors.grey[600]),
                                   ),
                                   const SizedBox(height: 8),
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         '${product.price.toStringAsFixed(2)} ر.س',
@@ -144,7 +152,8 @@ class _ProductsListPageState extends State<ProductsListPage> {
                                             value: 'edit',
                                             child: Row(
                                               children: [
-                                                const Icon(Icons.edit, color: Colors.blue),
+                                                const Icon(Icons.edit,
+                                                    color: Colors.blue),
                                                 const SizedBox(width: 8),
                                                 Text(localizations.edit),
                                               ],
@@ -154,7 +163,8 @@ class _ProductsListPageState extends State<ProductsListPage> {
                                             value: 'delete',
                                             child: Row(
                                               children: [
-                                                const Icon(Icons.delete, color: Colors.red),
+                                                const Icon(Icons.delete,
+                                                    color: Colors.red),
                                                 const SizedBox(width: 8),
                                                 Text(localizations.delete),
                                               ],
@@ -163,7 +173,8 @@ class _ProductsListPageState extends State<ProductsListPage> {
                                         ],
                                         onSelected: (value) {
                                           if (value == 'delete') {
-                                            _showDeleteConfirmation(context, product, localizations);
+                                            _showDeleteConfirmation(context,
+                                                product, localizations);
                                           }
                                           // TODO: تنفيذ التعديل
                                         },
@@ -194,7 +205,8 @@ class _ProductsListPageState extends State<ProductsListPage> {
     );
   }
 
-  void _showDeleteConfirmation(BuildContext context, Product product, AppLocalizations localizations) {
+  void _showDeleteConfirmation(
+      BuildContext context, Product product, AppLocalizations localizations) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -213,10 +225,13 @@ class _ProductsListPageState extends State<ProductsListPage> {
                 });
                 Navigator.of(context).pop();
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('${localizations.deleted} "${product.name}"')),
+                  SnackBar(
+                      content:
+                          Text('${localizations.deleted} "${product.name}"')),
                 );
               },
-              child: Text(localizations.delete, style: const TextStyle(color: Colors.red)),
+              child: Text(localizations.delete,
+                  style: const TextStyle(color: Colors.red)),
             ),
           ],
         );

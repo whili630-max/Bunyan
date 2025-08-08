@@ -20,7 +20,7 @@ class _BunyanHomePageState extends State<BunyanHomePage> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final languageManager = Provider.of<LanguageManager>(context);
-    
+
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
@@ -118,7 +118,7 @@ class _BunyanHomePageState extends State<BunyanHomePage> {
                       ),
                     ),
                     const SizedBox(height: 24),
-                    
+
                     // App Title & Description
                     Text(
                       l10n.appTitle,
@@ -142,7 +142,7 @@ class _BunyanHomePageState extends State<BunyanHomePage> {
                 ),
               ),
             ),
-            
+
             // Account Selection Section
             Padding(
               padding: const EdgeInsets.all(24.0),
@@ -168,7 +168,7 @@ class _BunyanHomePageState extends State<BunyanHomePage> {
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 32),
-                  
+
                   // Account Type Cards
                   _buildAccountTypeCard(
                     l10n.client,
@@ -178,7 +178,7 @@ class _BunyanHomePageState extends State<BunyanHomePage> {
                     const Color(0xFF1976D2),
                   ),
                   const SizedBox(height: 16),
-                  
+
                   _buildAccountTypeCard(
                     l10n.supplier,
                     l10n.supplierDesc,
@@ -187,7 +187,7 @@ class _BunyanHomePageState extends State<BunyanHomePage> {
                     const Color(0xFF388E3C),
                   ),
                   const SizedBox(height: 16),
-                  
+
                   _buildAccountTypeCard(
                     l10n.transporter,
                     l10n.transporterDesc,
@@ -196,7 +196,7 @@ class _BunyanHomePageState extends State<BunyanHomePage> {
                     const Color(0xFFFF8F00),
                   ),
                   const SizedBox(height: 16),
-                  
+
                   _buildAccountTypeCard(
                     l10n.contractor,
                     l10n.contractorDesc,
@@ -205,7 +205,7 @@ class _BunyanHomePageState extends State<BunyanHomePage> {
                     const Color(0xFF7B1FA2),
                   ),
                   const SizedBox(height: 16),
-                  
+
                   _buildAccountTypeCard(
                     l10n.admin,
                     l10n.adminDesc,
@@ -216,7 +216,7 @@ class _BunyanHomePageState extends State<BunyanHomePage> {
                 ],
               ),
             ),
-            
+
             // Continue Button
             if (selectedRole != null) ...[
               Padding(
@@ -241,7 +241,8 @@ class _BunyanHomePageState extends State<BunyanHomePage> {
                               height: 20,
                               child: CircularProgressIndicator(
                                 strokeWidth: 2,
-                                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                valueColor:
+                                    AlwaysStoppedAnimation<Color>(Colors.white),
                               ),
                             ),
                             SizedBox(width: 12),
@@ -250,12 +251,13 @@ class _BunyanHomePageState extends State<BunyanHomePage> {
                         )
                       : Text(
                           l10n.getStarted,
-                          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          style: const TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                 ),
               ),
             ],
-            
+
             // Features Section
             Container(
               width: double.infinity,
@@ -272,7 +274,6 @@ class _BunyanHomePageState extends State<BunyanHomePage> {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  
                   Row(
                     children: [
                       Expanded(
@@ -293,7 +294,6 @@ class _BunyanHomePageState extends State<BunyanHomePage> {
                     ],
                   ),
                   const SizedBox(height: 16),
-                  
                   _buildFeatureCard(
                     Icons.people,
                     l10n.userPreferences,
@@ -302,7 +302,7 @@ class _BunyanHomePageState extends State<BunyanHomePage> {
                 ],
               ),
             ),
-            
+
             // Bottom Notice
             Container(
               width: double.infinity,
@@ -333,9 +333,10 @@ class _BunyanHomePageState extends State<BunyanHomePage> {
     );
   }
 
-  Widget _buildAccountTypeCard(String title, String description, IconData icon, UserRole role, Color color) {
+  Widget _buildAccountTypeCard(String title, String description, IconData icon,
+      UserRole role, Color color) {
     final isSelected = selectedRole == role;
-    
+
     return Card(
       elevation: isSelected ? 8 : 2,
       shape: RoundedRectangleBorder(
@@ -389,8 +390,7 @@ class _BunyanHomePageState extends State<BunyanHomePage> {
                   ],
                 ),
               ),
-              if (isSelected)
-                Icon(Icons.check_circle, color: color, size: 24),
+              if (isSelected) Icon(Icons.check_circle, color: color, size: 24),
             ],
           ),
         ),
@@ -440,9 +440,9 @@ class _BunyanHomePageState extends State<BunyanHomePage> {
     try {
       // محاكاة تحميل البيانات
       await Future.delayed(const Duration(seconds: 1));
-      
+
       if (!mounted) return;
-      
+
       // التوجه لواجهة المستخدم المحددة
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
@@ -471,7 +471,7 @@ class _BunyanHomePageState extends State<BunyanHomePage> {
 // لوحة التحكم الموحدة
 class BunyanDashboard extends StatefulWidget {
   final UserRole userRole;
-  
+
   const BunyanDashboard({super.key, required this.userRole});
 
   @override
@@ -526,7 +526,7 @@ class _BunyanDashboardState extends State<BunyanDashboard> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF2E7D32),
@@ -593,7 +593,8 @@ class _BunyanDashboardState extends State<BunyanDashboard> {
                 children: [
                   Text(
                     l10n.buildingCategories,
-                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 16),
                   GridView.count(
@@ -601,12 +602,20 @@ class _BunyanDashboardState extends State<BunyanDashboard> {
                     physics: const NeverScrollableScrollPhysics(),
                     crossAxisCount: 3,
                     children: [
-                      _buildCategoryCard(l10n.plumbing, Icons.plumbing, BuildingCategory.plumbing),
-                      _buildCategoryCard(l10n.electrical, Icons.electrical_services, BuildingCategory.electrical),
-                      _buildCategoryCard(l10n.concrete, Icons.foundation, BuildingCategory.concrete),
-                      _buildCategoryCard(l10n.blocks, Icons.view_module, BuildingCategory.blocks),
-                      _buildCategoryCard(l10n.steel, Icons.construction, BuildingCategory.steel),
-                      _buildCategoryCard(l10n.tools, Icons.build, BuildingCategory.tools),
+                      _buildCategoryCard(l10n.plumbing, Icons.plumbing,
+                          BuildingCategory.plumbing),
+                      _buildCategoryCard(
+                          l10n.electrical,
+                          Icons.electrical_services,
+                          BuildingCategory.electrical),
+                      _buildCategoryCard(l10n.concrete, Icons.foundation,
+                          BuildingCategory.concrete),
+                      _buildCategoryCard(l10n.blocks, Icons.view_module,
+                          BuildingCategory.blocks),
+                      _buildCategoryCard(l10n.steel, Icons.construction,
+                          BuildingCategory.steel),
+                      _buildCategoryCard(
+                          l10n.tools, Icons.build, BuildingCategory.tools),
                     ],
                   ),
                 ],
@@ -644,13 +653,15 @@ class _BunyanDashboardState extends State<BunyanDashboard> {
                 ListView.builder(
                   padding: const EdgeInsets.all(16),
                   itemCount: products.length,
-                  itemBuilder: (context, index) => _buildProductCard(products[index]),
+                  itemBuilder: (context, index) =>
+                      _buildProductCard(products[index]),
                 ),
                 // الطلبات
                 ListView.builder(
                   padding: const EdgeInsets.all(16),
                   itemCount: orders.length,
-                  itemBuilder: (context, index) => _buildOrderCard(orders[index], l10n),
+                  itemBuilder: (context, index) =>
+                      _buildOrderCard(orders[index], l10n),
                 ),
                 // الإحصائيات
                 const Center(child: Text('الإحصائيات قيد التطوير')),
@@ -723,7 +734,8 @@ class _BunyanDashboardState extends State<BunyanDashboard> {
     return const Center(child: Text('لوحة تحكم المقاول قيد التطوير'));
   }
 
-  Widget _buildCategoryCard(String name, IconData icon, BuildingCategory category) {
+  Widget _buildCategoryCard(
+      String name, IconData icon, BuildingCategory category) {
     return Card(
       child: InkWell(
         onTap: () {
@@ -736,7 +748,9 @@ class _BunyanDashboardState extends State<BunyanDashboard> {
             children: [
               Icon(icon, size: 32, color: const Color(0xFF2E7D32)),
               const SizedBox(height: 8),
-              Text(name, textAlign: TextAlign.center, style: const TextStyle(fontSize: 12)),
+              Text(name,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 12)),
             ],
           ),
         ),
@@ -750,7 +764,8 @@ class _BunyanDashboardState extends State<BunyanDashboard> {
       child: ListTile(
         leading: CircleAvatar(
           backgroundColor: const Color(0xFF2E7D32),
-          child: Text(product.name.substring(0, 1), style: const TextStyle(color: Colors.white)),
+          child: Text(product.name.substring(0, 1),
+              style: const TextStyle(color: Colors.white)),
         ),
         title: Text(product.name),
         subtitle: Text('${product.price} ريال/${product.unit}'),
@@ -768,13 +783,15 @@ class _BunyanDashboardState extends State<BunyanDashboard> {
           child: const Icon(Icons.shopping_cart, color: Colors.white),
         ),
         title: Text('طلب #${order.id.substring(0, 8)}'),
-        subtitle: Text('${order.totalAmount} ريال - ${orderStatusNames[order.status]}'),
+        subtitle: Text(
+            '${order.totalAmount} ريال - ${orderStatusNames[order.status]}'),
         trailing: Text(order.createdAt.day.toString()),
       ),
     );
   }
 
-  Widget _buildStatCard(String title, String value, IconData icon, Color color) {
+  Widget _buildStatCard(
+      String title, String value, IconData icon, Color color) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -782,7 +799,9 @@ class _BunyanDashboardState extends State<BunyanDashboard> {
           children: [
             Icon(icon, size: 32, color: color),
             const SizedBox(height: 8),
-            Text(value, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            Text(value,
+                style:
+                    const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
             Text(title),
           ],
         ),

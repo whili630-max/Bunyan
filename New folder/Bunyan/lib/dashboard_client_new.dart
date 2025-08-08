@@ -12,7 +12,7 @@ class ClientDashboard extends StatelessWidget {
   Future<void> _logout(BuildContext context) async {
     final authManager = context.read<AuthManager>();
     await authManager.logout();
-    
+
     if (context.mounted) {
       Navigator.pushAndRemoveUntil(
         context,
@@ -25,7 +25,7 @@ class ClientDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
-    
+
     return Consumer<AuthManager>(
       builder: (context, authManager, child) {
         return Scaffold(
@@ -85,7 +85,8 @@ class ClientDashboard extends StatelessWidget {
                       children: [
                         Icon(Icons.logout, color: Colors.red),
                         SizedBox(width: 8),
-                        Text('تسجيل الخروج', style: TextStyle(color: Colors.red)),
+                        Text('تسجيل الخروج',
+                            style: TextStyle(color: Colors.red)),
                       ],
                     ),
                   ),
@@ -133,16 +134,16 @@ class ClientDashboard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 24),
-                
+
                 // الخدمات الرئيسية
                 Text(
                   localizations.availableServices,
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+                        fontWeight: FontWeight.bold,
+                      ),
                 ),
                 const SizedBox(height: 16),
-                
+
                 GridView.count(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -174,7 +175,8 @@ class ClientDashboard extends StatelessWidget {
                       color: Colors.orange,
                       onTap: () {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('طلبات الأسعار قيد التطوير')),
+                          const SnackBar(
+                              content: Text('طلبات الأسعار قيد التطوير')),
                         );
                       },
                     ),
@@ -186,7 +188,8 @@ class ClientDashboard extends StatelessWidget {
                       color: Colors.purple,
                       onTap: () {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('الدعم الفني قيد التطوير')),
+                          const SnackBar(
+                              content: Text('الدعم الفني قيد التطوير')),
                         );
                       },
                     ),

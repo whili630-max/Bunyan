@@ -15,7 +15,7 @@ class PreApprovedCompanies {
       contactPhone: '+966502345678',
     ),
     PreApprovedCompany(
-      id: 'PLB002', 
+      id: 'PLB002',
       name: 'شركة النجاح للسباكة',
       commercialRegister: '1010234567',
       category: BuildingCategory.plumbing,
@@ -24,7 +24,7 @@ class PreApprovedCompanies {
       contactEmail: 'contact@najah-plumbing.com',
       contactPhone: '+966501234567',
     ),
-    
+
     // موردي الكهرباء
     PreApprovedCompany(
       id: 'ELC001',
@@ -46,7 +46,7 @@ class PreApprovedCompanies {
       contactEmail: 'admin@advanced-electric.com',
       contactPhone: '+966504567890',
     ),
-    
+
     // شركات النقل
     PreApprovedCompany(
       id: 'TRP001',
@@ -68,7 +68,7 @@ class PreApprovedCompanies {
       contactEmail: 'info@fast-trailers.com',
       contactPhone: '+966506789012',
     ),
-    
+
     // المقاولين
     PreApprovedCompany(
       id: 'CTR001',
@@ -96,12 +96,13 @@ class PreApprovedCompanies {
     return _companies.where((company) => company.type == type).toList();
   }
 
-  static PreApprovedCompany? findCompany(String commercialRegister, UserRole type) {
+  static PreApprovedCompany? findCompany(
+      String commercialRegister, UserRole type) {
     try {
       return _companies.firstWhere(
-        (company) => 
-          company.commercialRegister == commercialRegister && 
-          company.type == type,
+        (company) =>
+            company.commercialRegister == commercialRegister &&
+            company.type == type,
       );
     } catch (e) {
       return null;
@@ -112,14 +113,16 @@ class PreApprovedCompanies {
     return findCompany(commercialRegister, type) != null;
   }
 
-  static List<PreApprovedCompany> searchCompanies(String query, UserRole? type) {
+  static List<PreApprovedCompany> searchCompanies(
+      String query, UserRole? type) {
     var companies = type != null ? getCompaniesByType(type) : _companies;
-    
-    return companies.where((company) =>
-      company.name.toLowerCase().contains(query.toLowerCase()) ||
-      company.commercialRegister.contains(query) ||
-      company.city.toLowerCase().contains(query.toLowerCase())
-    ).toList();
+
+    return companies
+        .where((company) =>
+            company.name.toLowerCase().contains(query.toLowerCase()) ||
+            company.commercialRegister.contains(query) ||
+            company.city.toLowerCase().contains(query.toLowerCase()))
+        .toList();
   }
 
   // إضافة شركة جديدة
@@ -156,7 +159,7 @@ class PreApprovedCompany {
   final String contactEmail;
   final String contactPhone;
   final bool isActive;
-  
+
   // خصائص بسيطة للاستخدام في الإدارة
   String get code => commercialRegister;
   String get typeString => type.name;

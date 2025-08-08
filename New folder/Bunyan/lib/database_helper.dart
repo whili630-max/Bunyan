@@ -15,6 +15,7 @@ class DatabaseHelper {
       print(message);
     }
   }
+
   DatabaseHelper._internal();
 
   static Database? _database;

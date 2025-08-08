@@ -13,7 +13,6 @@ class QuoteRequestsPage extends StatefulWidget {
 class _QuoteRequestsPageState extends State<QuoteRequestsPage> {
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: AppBar(
         title: const Text('طلبات الأسعار'),
@@ -27,7 +26,8 @@ class _QuoteRequestsPageState extends State<QuoteRequestsPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.request_quote_outlined, size: 64, color: Colors.grey),
+                  Icon(Icons.request_quote_outlined,
+                      size: 64, color: Colors.grey),
                   SizedBox(height: 16),
                   Text(
                     'لا توجد طلبات أسعار حالياً',
@@ -64,10 +64,11 @@ class _QuoteRequestsPageState extends State<QuoteRequestsPage> {
                   itemCount: MockDatabase.quoteRequests.length,
                   itemBuilder: (context, index) {
                     final request = MockDatabase.quoteRequests[index];
-                    
+
                     String clientName = 'عميل';
                     try {
-                      final client = MockDatabase.users.firstWhere((user) => user.id == request.clientId);
+                      final client = MockDatabase.users
+                          .firstWhere((user) => user.id == request.clientId);
                       clientName = client.name;
                     } catch (e) {
                       clientName = 'عميل غير معروف';
@@ -91,7 +92,8 @@ class _QuoteRequestsPageState extends State<QuoteRequestsPage> {
                               children: [
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         'طلب سعر #${_formatRequestId(request.id)}',
@@ -119,7 +121,8 @@ class _QuoteRequestsPageState extends State<QuoteRequestsPage> {
                                   ),
                                 ),
                                 Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 4),
                                   decoration: BoxDecoration(
                                     color: _getStatusColor(request.status),
                                     borderRadius: BorderRadius.circular(12),
@@ -157,7 +160,8 @@ class _QuoteRequestsPageState extends State<QuoteRequestsPage> {
                                 },
                                 child: Row(
                                   children: [
-                                    const Icon(Icons.attach_file, size: 16, color: Colors.blue),
+                                    const Icon(Icons.attach_file,
+                                        size: 16, color: Colors.blue),
                                     const SizedBox(width: 4),
                                     Text(
                                       request.attachmentPath!.split('/').last,
@@ -177,7 +181,8 @@ class _QuoteRequestsPageState extends State<QuoteRequestsPage> {
                                 if (request.status == 'pending')
                                   ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.red.shade100.withAlpha(255),
+                                      backgroundColor:
+                                          Colors.red.shade100.withAlpha(255),
                                       foregroundColor: Colors.red,
                                     ),
                                     onPressed: () {
@@ -190,9 +195,8 @@ class _QuoteRequestsPageState extends State<QuoteRequestsPage> {
                                   icon: const Icon(Icons.reply),
                                   label: const Text('الرد'),
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.green,
-                                    foregroundColor: Colors.white
-                                  ),
+                                      backgroundColor: Colors.green,
+                                      foregroundColor: Colors.white),
                                   onPressed: () {
                                     _showRespondDialog(context, request);
                                   },
@@ -209,7 +213,7 @@ class _QuoteRequestsPageState extends State<QuoteRequestsPage> {
             ),
     );
   }
-  
+
   Color _getStatusColor(String status) {
     switch (status) {
       case 'approved':
@@ -220,7 +224,7 @@ class _QuoteRequestsPageState extends State<QuoteRequestsPage> {
         return Colors.orange;
     }
   }
-  
+
   String _getStatusText(String status) {
     switch (status) {
       case 'approved':
@@ -253,11 +257,11 @@ class _QuoteRequestsPageState extends State<QuoteRequestsPage> {
       return 'غير معروف';
     }
   }
-  
+
   void _showRespondDialog(BuildContext context, QuoteRequest request) {
     final TextEditingController priceController = TextEditingController();
     final TextEditingController responseController = TextEditingController();
-    
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -282,7 +286,8 @@ class _QuoteRequestsPageState extends State<QuoteRequestsPage> {
                   decoration: const InputDecoration(
                     labelText: 'تفاصيل الرد',
                     border: OutlineInputBorder(),
-                    hintText: 'اكتب تفاصيل الرد، الشروط، مدة التنفيذ، وغيرها...',
+                    hintText:
+                        'اكتب تفاصيل الرد، الشروط، مدة التنفيذ، وغيرها...',
                   ),
                   maxLines: 5,
                 ),
@@ -322,17 +327,18 @@ class _QuoteRequestsPageState extends State<QuoteRequestsPage> {
                   const SnackBar(content: Text('تم الرد على الطلب بنجاح')),
                 );
               },
-              child: const Text('إرسال الرد', style: TextStyle(color: Colors.green)),
+              child: const Text('إرسال الرد',
+                  style: TextStyle(color: Colors.green)),
             ),
           ],
         );
       },
     );
   }
-  
+
   void _showRejectDialog(BuildContext context, QuoteRequest request) {
     final TextEditingController reasonController = TextEditingController();
-    
+
     showDialog(
       context: context,
       builder: (BuildContext context) {

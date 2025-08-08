@@ -5,7 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'bunyan_models.dart';
 
 class BunyanDatabaseHelper {
-  static final BunyanDatabaseHelper _instance = BunyanDatabaseHelper._internal();
+  static final BunyanDatabaseHelper _instance =
+      BunyanDatabaseHelper._internal();
   factory BunyanDatabaseHelper() => _instance;
   BunyanDatabaseHelper._internal();
 
@@ -254,7 +255,7 @@ class BunyanDatabaseHelper {
 
     // منتجات تجريبية
     final now = DateTime.now();
-    
+
     // منتجات سباكة
     await db.insert('products', {
       'id': 'prod_001',
@@ -334,14 +335,16 @@ class BunyanDatabaseHelper {
 
   Future<BunyanUser?> getUserByEmail(String email) async {
     final db = await database;
-    final maps = await db.query('users', where: 'email = ?', whereArgs: [email]);
+    final maps =
+        await db.query('users', where: 'email = ?', whereArgs: [email]);
     if (maps.isEmpty) return null;
     return BunyanUser.fromMap(maps.first);
   }
 
   Future<List<BunyanUser>> getUsersByRole(UserRole role) async {
     final db = await database;
-    final maps = await db.query('users', where: 'role = ?', whereArgs: [role.name]);
+    final maps =
+        await db.query('users', where: 'role = ?', whereArgs: [role.name]);
     return List.generate(maps.length, (i) => BunyanUser.fromMap(maps[i]));
   }
 
@@ -351,23 +354,18 @@ class BunyanDatabaseHelper {
     return await db.insert('products', product.toMap());
   }
 
-  Future<List<BuildingProduct>> getProductsByCategory(BuildingCategory category) async {
+  Future<List<BuildingProduct>> getProductsByCategory(
+      BuildingCategory category) async {
     final db = await database;
-    final maps = await db.query(
-      'products', 
-      where: 'category = ? AND is_available = 1', 
-      whereArgs: [category.name]
-    );
+    final maps = await db.query('products',
+        where: 'category = ? AND is_available = 1', whereArgs: [category.name]);
     return List.generate(maps.length, (i) => BuildingProduct.fromMap(maps[i]));
   }
 
   Future<List<BuildingProduct>> getProductsBySupplier(String supplierId) async {
     final db = await database;
-    final maps = await db.query(
-      'products', 
-      where: 'supplier_id = ?', 
-      whereArgs: [supplierId]
-    );
+    final maps = await db
+        .query('products', where: 'supplier_id = ?', whereArgs: [supplierId]);
     return List.generate(maps.length, (i) => BuildingProduct.fromMap(maps[i]));
   }
 
@@ -391,7 +389,7 @@ class BunyanDatabaseHelper {
     final db = await database;
     return await db.delete('products', where: 'id = ?', whereArgs: [id]);
   }
-  
+
   // الحصول على طلبات عروض الأسعار
   Future<List<Map<String, dynamic>>> getQuoteRequests() async {
     try {
@@ -415,7 +413,7 @@ class BunyanDatabaseHelper {
           'supplierId': '2'
         }
       ];
-      
+
       return mockQuotes;
     } catch (e) {
       _log('خطأ في الحصول على طلبات العروض: $e');
@@ -431,23 +429,19 @@ class BunyanDatabaseHelper {
 
   Future<List<BuildingOrder>> getOrdersByClient(String clientId) async {
     final db = await database;
-    final maps = await db.query(
-      'orders', 
-      where: 'client_id = ?', 
-      whereArgs: [clientId],
-      orderBy: 'created_at DESC'
-    );
+    final maps = await db.query('orders',
+        where: 'client_id = ?',
+        whereArgs: [clientId],
+        orderBy: 'created_at DESC');
     return List.generate(maps.length, (i) => BuildingOrder.fromMap(maps[i]));
   }
 
   Future<List<BuildingOrder>> getOrdersBySupplier(String supplierId) async {
     final db = await database;
-    final maps = await db.query(
-      'orders', 
-      where: 'supplier_id = ?', 
-      whereArgs: [supplierId],
-      orderBy: 'created_at DESC'
-    );
+    final maps = await db.query('orders',
+        where: 'supplier_id = ?',
+        whereArgs: [supplierId],
+        orderBy: 'created_at DESC');
     return List.generate(maps.length, (i) => BuildingOrder.fromMap(maps[i]));
   }
 
@@ -463,13 +457,13 @@ class BunyanDatabaseHelper {
       'status': status.name,
       'updated_at': DateTime.now().toIso8601String(),
     };
-    
+
     if (status == OrderStatus.accepted) {
       updates['accepted_at'] = DateTime.now().toIso8601String();
     } else if (status == OrderStatus.completed) {
       updates['completed_at'] = DateTime.now().toIso8601String();
     }
-    
+
     return await db.update(
       'orders',
       updates,
@@ -484,41 +478,40 @@ class BunyanDatabaseHelper {
     return await db.insert('transport_requests', request.toMap());
   }
 
-  Future<List<TransportRequest>> getTransportRequestsByTransporter(String transporterId) async {
+  Future<List<TransportRequest>> getTransportRequestsByTransporter(
+      String transporterId) async {
     final db = await database;
-    final maps = await db.query(
-      'transport_requests', 
-      where: 'transporter_id = ? OR transporter_id IS NULL', 
-      whereArgs: [transporterId],
-      orderBy: 'created_at DESC'
-    );
+    final maps = await db.query('transport_requests',
+        where: 'transporter_id = ? OR transporter_id IS NULL',
+        whereArgs: [transporterId],
+        orderBy: 'created_at DESC');
     return List.generate(maps.length, (i) => TransportRequest.fromMap(maps[i]));
   }
 
   // عمليات التقييمات
   Future<int> insertRating(Rating rating) async {
     final db = await database;
-    
+
     // تحديث تقييم المورد
     await _updateSupplierRating(rating.supplierId);
-    
+
     return await db.insert('ratings', rating.toMap());
   }
 
   Future<void> _updateSupplierRating(String supplierId) async {
     final db = await database;
-    
+
     // حساب متوسط التقييم
     final result = await db.rawQuery('''
       SELECT AVG(rating) as avg_rating, COUNT(*) as count 
       FROM ratings 
       WHERE supplier_id = ?
     ''', [supplierId]);
-    
+
     if (result.isNotEmpty) {
       final avgRating = (result.first['avg_rating'] as num?)?.toDouble() ?? 0.0;
       final count = result.first['count'] as int;
-      
+
       await db.update(
         'users',
         {'rating': avgRating, 'reviews_count': count},
@@ -531,23 +524,25 @@ class BunyanDatabaseHelper {
   // إحصائيات للمدير
   Future<Map<String, dynamic>> getStatistics() async {
     final db = await database;
-    
-    final usersCount = Sqflite.firstIntValue(
-      await db.rawQuery('SELECT COUNT(*) FROM users WHERE is_active = 1')
-    ) ?? 0;
-    
+
+    final usersCount = Sqflite.firstIntValue(await db
+            .rawQuery('SELECT COUNT(*) FROM users WHERE is_active = 1')) ??
+        0;
+
     final ordersCount = Sqflite.firstIntValue(
-      await db.rawQuery('SELECT COUNT(*) FROM orders')
-    ) ?? 0;
-    
-    final productsCount = Sqflite.firstIntValue(
-      await db.rawQuery('SELECT COUNT(*) FROM products WHERE is_available = 1')
-    ) ?? 0;
-    
-    final totalRevenue = Sqflite.firstIntValue(
-      await db.rawQuery('SELECT SUM(commission_amount) FROM orders WHERE status = ?', ['completed'])
-    )?.toDouble() ?? 0.0;
-    
+            await db.rawQuery('SELECT COUNT(*) FROM orders')) ??
+        0;
+
+    final productsCount = Sqflite.firstIntValue(await db.rawQuery(
+            'SELECT COUNT(*) FROM products WHERE is_available = 1')) ??
+        0;
+
+    final totalRevenue = Sqflite.firstIntValue(await db.rawQuery(
+                'SELECT SUM(commission_amount) FROM orders WHERE status = ?',
+                ['completed']))
+            ?.toDouble() ??
+        0.0;
+
     return {
       'usersCount': usersCount,
       'ordersCount': ordersCount,

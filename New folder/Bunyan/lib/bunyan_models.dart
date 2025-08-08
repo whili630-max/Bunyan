@@ -2,33 +2,33 @@
 import 'dart:convert';
 
 enum UserRole {
-  client,    // عميل
-  supplier,  // مورد
+  client, // عميل
+  supplier, // مورد
   transporter, // مقدم خدمة نقل
-  contractor,  // مقاول/مشرف
-  admin      // مدير
+  contractor, // مقاول/مشرف
+  admin // مدير
 }
 
 enum OrderStatus {
-  pending,     // معلق
-  accepted,    // مقبول
-  inProgress,  // جاري التنفيذ
-  completed,   // مكتمل
-  cancelled    // ملغي
+  pending, // معلق
+  accepted, // مقبول
+  inProgress, // جاري التنفيذ
+  completed, // مكتمل
+  cancelled // ملغي
 }
 
 enum BuildingCategory {
-  plumbing,      // سباكة
-  electrical,    // كهرباء
-  concrete,      // خرسانة
-  blocks,        // بلك
-  steel,         // حديد
-  tiles,         // بلاط
-  paint,         // دهانات
-  doors,         // أبواب ونوافذ
+  plumbing, // سباكة
+  electrical, // كهرباء
+  concrete, // خرسانة
+  blocks, // بلك
+  steel, // حديد
+  tiles, // بلاط
+  paint, // دهانات
+  doors, // أبواب ونوافذ
   heavyEquipment, // معدات ثقيلة
-  tools,         // أدوات
-  transport      // نقل
+  tools, // أدوات
+  transport // نقل
 }
 
 class BunyanUser {
@@ -94,9 +94,10 @@ class BunyanUser {
       reviewsCount: map['reviews_count']?.toInt() ?? 0,
       isVerified: (map['is_verified'] ?? 0) == 1,
       isActive: (map['is_active'] ?? 1) == 1,
-      createdAt: DateTime.tryParse(map['created_at']?.toString() ?? '') ?? DateTime.now(),
-      lastLogin: map['last_login'] != null 
-          ? DateTime.tryParse(map['last_login'].toString()) 
+      createdAt: DateTime.tryParse(map['created_at']?.toString() ?? '') ??
+          DateTime.now(),
+      lastLogin: map['last_login'] != null
+          ? DateTime.tryParse(map['last_login'].toString())
           : null,
     );
   }
@@ -112,7 +113,8 @@ class BunyanUser {
       'address': address,
       'city': city,
       'profile_image': profileImage,
-      'specializations': jsonEncode(specializations.map((e) => e.name).toList()),
+      'specializations':
+          jsonEncode(specializations.map((e) => e.name).toList()),
       'rating': rating,
       'reviews_count': reviewsCount,
       'is_verified': isVerified ? 1 : 0,
@@ -182,8 +184,10 @@ class BuildingProduct {
       specifications: map['specifications']?.toString(),
       brand: map['brand']?.toString(),
       commissionRate: (map['commission_rate'] as num?)?.toDouble() ?? 0.05,
-      createdAt: DateTime.tryParse(map['created_at']?.toString() ?? '') ?? DateTime.now(),
-      updatedAt: DateTime.tryParse(map['updated_at']?.toString() ?? '') ?? DateTime.now(),
+      createdAt: DateTime.tryParse(map['created_at']?.toString() ?? '') ??
+          DateTime.now(),
+      updatedAt: DateTime.tryParse(map['updated_at']?.toString() ?? '') ??
+          DateTime.now(),
     );
   }
 
@@ -270,14 +274,21 @@ class BuildingOrder {
       ),
       deliveryAddress: map['delivery_address']?.toString() ?? '',
       notes: map['notes']?.toString(),
-      requestedDeliveryDate: DateTime.tryParse(map['requested_delivery_date']?.toString() ?? '') ?? DateTime.now(),
+      requestedDeliveryDate:
+          DateTime.tryParse(map['requested_delivery_date']?.toString() ?? '') ??
+              DateTime.now(),
       needsTransport: (map['needs_transport'] ?? 0) == 1,
       transportFee: (map['transport_fee'] as num?)?.toDouble(),
       paymentMethod: map['payment_method']?.toString(),
       isPaid: (map['is_paid'] ?? 0) == 1,
-      createdAt: DateTime.tryParse(map['created_at']?.toString() ?? '') ?? DateTime.now(),
-      acceptedAt: map['accepted_at'] != null ? DateTime.tryParse(map['accepted_at'].toString()) : null,
-      completedAt: map['completed_at'] != null ? DateTime.tryParse(map['completed_at'].toString()) : null,
+      createdAt: DateTime.tryParse(map['created_at']?.toString() ?? '') ??
+          DateTime.now(),
+      acceptedAt: map['accepted_at'] != null
+          ? DateTime.tryParse(map['accepted_at'].toString())
+          : null,
+      completedAt: map['completed_at'] != null
+          ? DateTime.tryParse(map['completed_at'].toString())
+          : null,
     );
   }
 
@@ -372,7 +383,8 @@ class Rating {
       supplierId: map['supplier_id']?.toString() ?? '',
       rating: map['rating']?.toInt() ?? 0,
       comment: map['comment']?.toString(),
-      createdAt: DateTime.tryParse(map['created_at']?.toString() ?? '') ?? DateTime.now(),
+      createdAt: DateTime.tryParse(map['created_at']?.toString() ?? '') ??
+          DateTime.now(),
     );
   }
 
@@ -433,8 +445,11 @@ class TransportRequest {
         (e) => e.name == map['status'],
         orElse: () => OrderStatus.pending,
       ),
-      requestedDate: DateTime.tryParse(map['requested_date']?.toString() ?? '') ?? DateTime.now(),
-      createdAt: DateTime.tryParse(map['created_at']?.toString() ?? '') ?? DateTime.now(),
+      requestedDate:
+          DateTime.tryParse(map['requested_date']?.toString() ?? '') ??
+              DateTime.now(),
+      createdAt: DateTime.tryParse(map['created_at']?.toString() ?? '') ??
+          DateTime.now(),
     );
   }
 

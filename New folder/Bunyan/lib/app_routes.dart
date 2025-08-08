@@ -22,7 +22,8 @@ class AppRoutes {
     '/quote_requests': (context) => const QuoteRequestsPage(),
     '/user_management': (context) => const UserManagementPage(),
     '/request_sent': (context) {
-      final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
+      final args =
+          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
       return RequestSentPage(
         productName: args?['productName'],
         requestDetails: args?['requestDetails'],

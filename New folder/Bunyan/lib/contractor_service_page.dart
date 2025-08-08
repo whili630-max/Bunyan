@@ -358,8 +358,7 @@ class _ContractorServicePageState extends State<ContractorServicePage>
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
-                    color:
-                        _getProjectTypeColor(project['type']).withAlpha(26),
+                    color: _getProjectTypeColor(project['type']).withAlpha(26),
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: Text(

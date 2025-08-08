@@ -17,7 +17,7 @@ class AnimatedEffects {
       ),
     );
   }
-  
+
   // مؤثر النجاح
   static Widget success({
     double size = 100,
@@ -32,7 +32,7 @@ class AnimatedEffects {
       ),
     );
   }
-  
+
   // مؤثر الخطأ
   static Widget error({
     double size = 100,
@@ -47,7 +47,7 @@ class AnimatedEffects {
       ),
     );
   }
-  
+
   // مؤثر إرسال الرسائل
   static Widget messageSent({
     double size = 100,
@@ -62,7 +62,7 @@ class AnimatedEffects {
       ),
     );
   }
-  
+
   // مؤثر الانتظار
   static Widget waiting({
     double size = 100,
@@ -77,7 +77,7 @@ class AnimatedEffects {
       ),
     );
   }
-  
+
   // مؤثر مكالمة هاتفية
   static Widget phoneCall({
     double size = 100,
@@ -92,7 +92,7 @@ class AnimatedEffects {
       ),
     );
   }
-  
+
   // مؤثر التوصيل
   static Widget delivery({
     double size = 100,
@@ -129,14 +129,14 @@ class FadeInEffect extends StatelessWidget {
   }
 }
 
-// مؤثرات حركية للأزرار 
+// مؤثرات حركية للأزرار
 class AnimatedButton extends StatefulWidget {
   final Widget child;
   final VoidCallback onPressed;
   final Color? color;
   final double scale;
   final Duration duration;
-  
+
   const AnimatedButton({
     required this.child,
     required this.onPressed,
@@ -150,10 +150,11 @@ class AnimatedButton extends StatefulWidget {
   State<AnimatedButton> createState() => _AnimatedButtonState();
 }
 
-class _AnimatedButtonState extends State<AnimatedButton> with SingleTickerProviderStateMixin {
+class _AnimatedButtonState extends State<AnimatedButton>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
-  
+
   @override
   void initState() {
     super.initState();
@@ -161,7 +162,7 @@ class _AnimatedButtonState extends State<AnimatedButton> with SingleTickerProvid
       vsync: this,
       duration: widget.duration,
     );
-    
+
     _scaleAnimation = Tween<double>(
       begin: 1.0,
       end: widget.scale,
@@ -172,7 +173,7 @@ class _AnimatedButtonState extends State<AnimatedButton> with SingleTickerProvid
       ),
     );
   }
-  
+
   @override
   void dispose() {
     _controller.dispose();
@@ -201,7 +202,7 @@ class FadeSlideInEffect extends StatelessWidget {
   final Widget child;
   final Duration duration;
   final Offset offset;
-  
+
   const FadeSlideInEffect({
     required this.child,
     this.duration = const Duration(milliseconds: 300),

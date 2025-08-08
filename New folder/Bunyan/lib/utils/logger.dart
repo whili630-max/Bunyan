@@ -27,3 +27,10 @@ class Logger {
     }
   }
 }
+
+void main() {
+  Logger.log('This is a log message');
+  Logger.error('This is an error message', 'Some error', StackTrace.current);
+  Logger.info('This is an info message');
+  Logger.warn('This is a warning message');
+}

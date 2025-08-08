@@ -17,7 +17,8 @@ class BunyanApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => LanguageManager()),
-        ChangeNotifierProvider(create: (context) => MembershipRequestsManager()),
+        ChangeNotifierProvider(
+            create: (context) => MembershipRequestsManager()),
       ],
       child: Consumer<LanguageManager>(
         builder: (context, languageManager, child) {
