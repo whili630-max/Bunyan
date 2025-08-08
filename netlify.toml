@@ -1,12 +1,18 @@
 [build]
   command = """
+    # تنصيب Flutter SDK
     git clone https://github.com/flutter/flutter.git -b stable --depth 1
     export PATH="$PATH:`pwd`/flutter/bin"
+    
+    # الإعداد الأولي لـ Flutter
     flutter --version
     flutter config --enable-web
     flutter doctor
+    
+    # تثبيت التبعيات وبناء التطبيق
     flutter pub get
-    flutter build web --release --base-href /
+    flutter clean # تنظيف البناء السابق لتجنب مشاكل الكاش
+    flutter build web --release --base-href / --web-renderer canvaskit
     
     # تأكد من وجود ملف _redirects وإنشاء قواعد إعادة التوجيه
     echo "/*    /index.html   200" > build/web/_redirects
@@ -58,7 +64,7 @@
 
 [build.environment]
   CI = "false"
-  NODE_VERSION = "18"
+  NODE_VERSION = "20"
 
 # إضافة قواعد تخصيص لملفات الصور
 [[headers]]
@@ -66,3 +72,22 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000"
     Access-Control-Allow-Origin = "*"
+
+# التعامل مع ملفات الأصول الثابتة
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+    Access-Control-Allow-Origin = "*"
+
+# التعامل مع ملفات JS الرئيسية مع توجيه لمنع مشاكل التخزين المؤقت
+[[headers]]
+  for = "/main.dart.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# إعدادات الـ Service Worker
+[[headers]]
+  for = "/flutter_service_worker.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
