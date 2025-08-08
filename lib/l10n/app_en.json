@@ -1,0 +1,57 @@
+{
+  "appTitle": "Bunyan",
+  "appSubtitle": "Comprehensive Business Management Platform",
+  "appDescription": "Connecting construction project owners with all essential service providers and materials suppliers in the construction sector",
+  
+  "selectAccountType": "Choose Account Type",
+  "pleaseSelectAccount": "Please select your account type:",
+  "client": "Client",
+  "supplier": "Supplier",
+  "admin": "Admin",
+  "clientDesc": "Simple interface, quick access to services, dedicated support",
+  "supplierDesc": "Management tools, order processing, inventory management",
+  "adminDesc": "Full control, user management, analytics",
+  
+  "clientDashboard": "Client Dashboard",
+  "supplierDashboard": "Supplier Dashboard",
+  "adminDashboard": "Admin Dashboard",
+  "welcome": "Welcome to your dashboard!",
+  
+  "addProduct": "Add Product",
+  "productName": "Product Name",
+  "productDescription": "Product Description",
+  "price": "Price",
+  "uploadImage": "Upload Product Image",
+  "imageUploadDev": "Image upload under development",
+  "productAddedSuccess": "Product added successfully!",
+  "enterProductName": "Please enter product name",
+  "enterProductDesc": "Please enter product description",
+  "enterPrice": "Please enter price",
+  "enterValidPrice": "Please enter a valid price",
+  
+  "productsList": "Products List",
+  "myProducts": "My Products & Services",
+  "noProducts": "No products yet",
+  "addNewProduct": "Press + to add a new product",
+  "edit": "Edit",
+  "delete": "Delete",
+  "confirmDelete": "Confirm Delete",
+  "confirmDeleteMsg": "Are you sure you want to delete \"{productName}\"?",
+  "cancel": "Cancel",
+  "deleted": "Deleted",
+  
+  "userManagement": "User Management",
+  "systemManagement": "System Management",
+  "availableServices": "Available Services",
+  "technicalSupport": "Technical Support",
+  
+  "notifications": "Notifications",
+  "settings": "Settings",
+  
+  "requestSentSuccessfully": "Request Sent Successfully!",
+  "yourRequestFor": "Your request for",
+  "theProduct": "the product",
+  "hasBeenSent": "has been sent",
+  "backToDashboard": "Back to Dashboard",
+  "browseMoreProducts": "Browse More Products"
+}
