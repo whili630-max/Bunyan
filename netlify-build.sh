@@ -22,10 +22,8 @@ flutter doctor -v
 # 3) تثبيت تبعيات المشروع وبناء الويب
 flutter pub get
 flutter clean
-# اختبار الخيارات المتاحة في الإصدار الحالي من Flutter
-flutter build web -h
-# استخدام أمر بناء بسيط جدًا
-flutter build web --release --base-href /
+# استخدام أمر بناء بسيط مع خيارات متوافقة
+flutter build web --release --base-href / --web-renderer html --pwa-strategy=none
 
 # 4) تأكيد وجود index.html
 test -f build/web/index.html || (echo "❌ index.html غير موجود في build/web" && exit 1)
