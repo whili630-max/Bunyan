@@ -1,14 +1,17 @@
 [build]
-command = """
-curl -L -o flutter.tar.xz https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.19.3-stable.tar.xz && 
-tar xf flutter.tar.xz && 
-export PATH="$PATH:`pwd`/flutter/bin" &&
-flutter precache &&
-flutter --version &&
-flutter build web --release &&
-echo '<script>window.addEventListener("load", function() { _flutter = { loader: {} }; _flutter.loader.loadEntrypoint({ serviceWorker: { serviceWorkerVersion: null }, onEntrypointLoaded: function(e) { e.initializeEngine().then(function(e) { e.runApp() }) } }) });</script>' >> build/web/index.html
-"""
-publish = "build/web"
+command = '''
+git clone https://github.com/flutter/flutter.git -b stable --depth 1
+export PATH="$PATH:`pwd`/flutter/bin"
+flutter --version
+flutter config --enable-web
+flutter doctor
+flutter pub get
+flutter build web --release
+mkdir -p public
+cp -r build/web/* public/
+cp custom_index.html public/index.html
+'''
+publish = "public"
 
 [build.environment]
 CI = "false"
