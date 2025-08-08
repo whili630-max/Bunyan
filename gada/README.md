@@ -33,7 +33,7 @@ flutter run -d chrome -t lib/main_selector_page.dart
 To build the app for production locally:
 
 ```bash
-flutter build web -t lib/main_selector_page.dart --release --web-renderer html
+flutter build web -t lib/main_selector_page.dart --release
 ```
 
 The output will be in the `build/web` directory, which can be deployed to any static web hosting service.
