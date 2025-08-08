@@ -1,10 +1,10 @@
 [build]
   command = """
-    curl -A \"Mozilla/5.0\" -L https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.22.0-stable.tar.xz -o flutter_linux_3.22.0-stable.tar.xz
-    tar xf flutter_linux_3.22.0-stable.tar.xz
+    curl -A \"Mozilla/5.0\" -L https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.28.0-stable.tar.xz -o flutter_linux_3.28.0-stable.tar.xz
+    tar xf flutter_linux_3.28.0-stable.tar.xz
     export PATH=$PATH:$(pwd)/flutter/bin
     flutter --version
     flutter pub get
-    flutter build web
+    flutter build web --release
   """
   publish = "build/web"
