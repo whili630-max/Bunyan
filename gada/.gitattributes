@@ -2,5 +2,3 @@
 *.{cmd,[cC][mM][dD]} text eol=crlf
 *.{bat,[bB][aA][tT]} text eol=crlf
 *.sh text eol=lf
-netlify-build.sh text eol=lf
-netlify.toml text eol=lf
