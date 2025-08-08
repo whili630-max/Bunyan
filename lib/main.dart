@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-
 import 'auth_manager.dart';
 import 'session_manager.dart';
 import 'notification_manager.dart';
@@ -17,7 +16,6 @@ import 'l10n/app_localizations.dart';
 // نقطة الدخول الرئيسية للتطبيق
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
 
   // تهيئة إدارة الإشعارات المحلية
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
