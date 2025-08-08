@@ -1,0 +1,29 @@
+# netlify.toml
+[build]
+  command = "bash netlify-build.sh"
+  publish = "build/web"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# إعادة توجيه كل الروابط للصفحة الرئيسية (مهم للـ SPA)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# إعدادات التخزين المؤقت للأصول الثابتة
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "/icons/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "/flutter_service_worker.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
