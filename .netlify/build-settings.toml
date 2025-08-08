@@ -1,0 +1,28 @@
+# This is a sample .netlify.toml file for Flutter web apps
+# It contains additional settings that can help with deployment
+
+[build.environment]
+  # Set CI to false to prevent treating warnings as errors
+  CI = "false"
+  # Enable verbose output for Flutter build
+  FLUTTER_VERBOSE = "true"
+  # Specify Node.js version explicitly
+  NODE_VERSION = "22.0.0"
+
+[build.processing]
+  # Skip processing assets that are already optimized by Flutter
+  skip_processing = true
+
+[build.processing.html]
+  pretty_urls = true
+
+[build.processing.css]
+  bundle = false
+  minify = false
+
+[build.processing.js]
+  bundle = false
+  minify = false
+
+[build.processing.images]
+  compress = false
