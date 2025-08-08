@@ -1,5 +1,5 @@
 [build]
-  command = "git clone https://github.com/flutter/flutter.git --depth 1 -b stable $HOME/flutter && export PATH=$PATH:$HOME/flutter/bin && flutter doctor && flutter pub get && flutter build web -t lib/main_selector_page.dart --release --base-href /"
+  command = "bash netlify-build.sh"
   publish = "build/web"
 
 [build.environment]
