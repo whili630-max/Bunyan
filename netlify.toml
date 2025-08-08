@@ -1,18 +1,21 @@
 [build]
-  # Build commands are now configured in the Netlify dashboard
+  command = """
+    # Download and setup Flutter
+    git clone -b stable https://github.com/flutter/flutter.git --depth 1
+    export PATH="$PATH:$(pwd)/flutter/bin"
+    flutter precache --web
+    flutter doctor -v
+    
+    # Get dependencies and build
+    cd "$PWD"
+    flutter clean
+    flutter pub get
+    flutter config --enable-web
+    flutter build web --release --dart-define=Dart.vm.product=true
+  """
   publish = "build/web"
 
 # Environment variables for all deploy contexts
 [build.environment]
   CI = "false"
   NODE_VERSION = "22.0.0"
-
-# Settings for deploy-preview context
-[context.deploy-preview]
-  command = """
-    curl -A \"Mozilla/5.0\" -L https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.28.0-stable.tar.xz -o flutter_linux_3.28.0-stable.tar.xz
-    tar xf flutter_linux_3.28.0-stable.tar.xz
-    export PATH=$PATH:$(pwd)/flutter/bin
-    flutter pub get
-    flutter build web --release
-  """
