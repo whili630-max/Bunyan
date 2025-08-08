@@ -1,5 +1,9 @@
 [build]
   command = """
+    export NVM_DIR=\"$HOME/.nvm\"
+    [ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\"
+    nvm install 20
+    nvm use 20
     curl -L https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.19.6-stable.tar.xz -o flutter_linux_3.19.6-stable.tar.xz
     tar xf flutter_linux_3.19.6-stable.tar.xz
     export PATH=$PATH:$(pwd)/flutter/bin
