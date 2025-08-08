@@ -1,24 +1,24 @@
 #!/usr/bin/env bash
 set -euo pipefail
+set -x
 
-echo "===== Environment ====="
-uname -a
-echo "NODE_VERSION: ${NODE_VERSION:-unset}"
+echo "===== show script contents (root) ====="
+cat netlify-build.sh || true
 
-git clone https://github.com/flutter/flutter.git -b stable --depth 1 "$HOME/flutter"
+git clone https://github.com/flutter/flutter.git -b ${FLUTTER_VERSION:-stable} --depth 1 "$HOME/flutter"
 export PATH="$HOME/flutter/bin:$PATH"
 flutter --version
 flutter config --enable-web
 flutter doctor -v
 
+# Build in repo root (expects pubspec.yaml here)
 flutter pub get
 flutter clean
-flutter build web -t lib/main_selector_page.dart --release --base-href / --web-renderer html --pwa-strategy=none
+flutter build web --release --target=lib/main_client.dart
 
-test -f build/web/index.html || (echo "❌ index.html missing" && exit 1)
+# Ensure outputs
+test -f build/web/index.html
 cp -f build/web/index.html build/web/404.html
 
-echo "===== build/web ====="
+echo "===== list build/web (root) ====="
 ls -la build/web/
-echo "===== icons ====="
-ls -la build/web/icons/ || echo "no icons dir!"
