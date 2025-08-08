@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'dart:io' show Platform;
+
 
 import 'auth_manager.dart';
 import 'session_manager.dart';
@@ -19,10 +18,6 @@ import 'l10n/app_localizations.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-    sqfliteFfiInit();
-    databaseFactory = databaseFactoryFfi;
-  }
 
   // تهيئة إدارة الإشعارات المحلية
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
