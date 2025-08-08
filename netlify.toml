@@ -8,7 +8,6 @@ flutter --version &&
 flutter build web --release &&
 echo '<script>window.addEventListener("load", function() { _flutter = { loader: {} }; _flutter.loader.loadEntrypoint({ serviceWorker: { serviceWorkerVersion: null }, onEntrypointLoaded: function(e) { e.initializeEngine().then(function(e) { e.runApp() }) } }) });</script>' >> build/web/index.html
 """
-"""
 publish = "build/web"
 
 [build.environment]
