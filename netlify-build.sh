@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# عرض معلومات البيئة
+echo "===== معلومات البيئة ====="
+uname -a
+echo "NODE_VERSION: $NODE_VERSION"
+
 # 1) جلب Flutter (قليل العمق لتسريع)
 git clone https://github.com/flutter/flutter.git -b stable --depth 1 "$HOME/flutter"
 
@@ -17,7 +22,10 @@ flutter doctor -v
 # 3) تثبيت تبعيات المشروع وبناء الويب
 flutter pub get
 flutter clean
-flutter build web --release --web-renderer html --base-href / --pwa-strategy=none
+# اختبار الخيارات المتاحة في الإصدار الحالي من Flutter
+flutter build web -h
+# استخدام أمر بناء بسيط جدًا
+flutter build web --release --base-href /
 
 # 4) تأكيد وجود index.html
 test -f build/web/index.html || (echo "❌ index.html غير موجود في build/web" && exit 1)
