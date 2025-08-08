@@ -1,4 +1,4 @@
-# netlify.toml
+# netlify.toml - ملف إعدادات مبسط
 [build]
   command = "bash netlify-build.sh"
   publish = "build/web"
@@ -11,19 +11,3 @@
   from = "/*"
   to = "/index.html"
   status = 200
-
-# إعدادات التخزين المؤقت للأصول الثابتة
-[[headers]]
-  for = "/assets/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000"
-
-[[headers]]
-  for = "/icons/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000"
-
-[[headers]]
-  for = "/flutter_service_worker.js"
-  [headers.values]
-    Cache-Control = "public, max-age=0, must-revalidate"
