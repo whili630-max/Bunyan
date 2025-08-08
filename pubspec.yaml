@@ -27,7 +27,7 @@ dependencies:
   # UI enhancements
   google_fonts: ^6.1.0
   animations: ^2.0.8
-  url_launcher: ^6.3.2
+  url_launcher: ^6.1.14
   lottie: ^2.6.0
   flutter_local_notifications: ^16.1.0
 
