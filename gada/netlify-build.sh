@@ -9,7 +9,7 @@ flutter doctor
 # Install dependencies and build
 flutter pub get
 flutter clean
-flutter build web -t lib/main_selector_page.dart --release --base-href / --web-renderer html --pwa-strategy=none
+flutter build web -t lib/main_selector_page.dart --release --base-href /
 
 # Debug info - list build output
 echo "Build complete. Contents of build/web:"
