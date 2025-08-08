@@ -6,12 +6,37 @@ flutter --version
 flutter config --enable-web
 flutter doctor
 flutter pub get
-flutter build web --release
-mkdir -p public
-cp -r build/web/* public/
-cp custom_index.html public/index.html
+flutter build web --release --base-href /
+# تأكد من وجود ملف _redirects
+echo "/*    /index.html   200" > build/web/_redirects
+# تأكد من وجود الأيقونات
+mkdir -p build/web/icons
+convert -size 192x192 xc:transparent build/web/icons/Icon-192.png || echo "Creating placeholder 192 icon"
+convert -size 512x512 xc:transparent build/web/icons/Icon-512.png || echo "Creating placeholder 512 icon"
+# كحل بديل إذا لم يعمل الأمر convert
+echo '<svg width="192" height="192" xmlns="http://www.w3.org/2000/svg"><rect width="192" height="192" fill="#00A651"/><text x="50%" y="50%" font-size="48" fill="#fff" text-anchor="middle" dominant-baseline="middle">B</text></svg>' > build/web/icons/Icon-192.png
+echo '<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg"><rect width="512" height="512" fill="#00A651"/><text x="50%" y="50%" font-size="128" fill="#fff" text-anchor="middle" dominant-baseline="middle">B</text></svg>' > build/web/icons/Icon-512.png
+# إنشاء الاسكربت اللازم لتهيئة _flutter
+cat <<EOT >> build/web/flutter_fix.js
+window.addEventListener('load', function() {
+  if (typeof _flutter === 'undefined') {
+    _flutter = { loader: {} };
+  }
+  if (_flutter.loader && !_flutter.loader.loadEntrypoint) {
+    _flutter.loader.loadEntrypoint = function(config) {
+      setTimeout(function() {
+        let scriptTag = document.createElement('script');
+        scriptTag.src = 'main.dart.js';
+        document.body.appendChild(scriptTag);
+      }, 100);
+    };
+  }
+});
+EOT
+# إضافة المرجع إلى الاسكربت في index.html
+echo '<script src="flutter_fix.js"></script>' >> build/web/index.html
 '''
-publish = "public"
+publish = "build/web"
 
 [build.environment]
 CI = "false"
