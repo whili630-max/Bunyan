@@ -1,1 +1,11 @@
 /*    /index.html   200
+/main.dart.js   /main.dart.js   200!   Cache-Control: public, max-age=31536000
+/*.js   /*.js   200!   Cache-Control: public, max-age=31536000
+/*.css   /*.css   200!   Cache-Control: public, max-age=31536000
+/*.png   /*.png   200!   Cache-Control: public, max-age=31536000
+/*.jpg   /*.jpg   200!   Cache-Control: public, max-age=31536000
+/*.jpeg   /*.jpeg   200!   Cache-Control: public, max-age=31536000
+/*.svg   /*.svg   200!   Cache-Control: public, max-age=31536000
+/*.webp   /*.webp   200!   Cache-Control: public, max-age=31536000
+/*.woff   /*.woff   200!   Cache-Control: public, max-age=31536000
+/*.woff2   /*.woff2   200!   Cache-Control: public, max-age=31536000
