@@ -1,18 +1,11 @@
+[[plugins]]
+  package = "netlify-plugin-flutter"
+
+[plugins.inputs]
+  channel = "stable"
+
 [build]
-  command = """
-    # Download and setup Flutter
-    git clone -b stable https://github.com/flutter/flutter.git --depth 1
-    export PATH="$PATH:$(pwd)/flutter/bin"
-    flutter precache --web
-    flutter doctor -v
-    
-    # Get dependencies and build
-    cd "$PWD"
-    flutter clean
-    flutter pub get
-    flutter config --enable-web
-    flutter build web --release --dart-define=Dart.vm.product=true
-  """
+  command = "flutter build web --release"
   publish = "build/web"
 
 # Environment variables for all deploy contexts
