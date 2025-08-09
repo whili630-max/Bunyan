@@ -1,8 +1,10 @@
 ﻿#!/usr/bin/env bash
 set -euo pipefail
 set -x
+
 echo "===== show script contents (root) ====="
 cat netlify-build.sh || true
+
 # Scrub env that might inject extra flags like --web-renderer
 unset FLUTTER_TOOL_ARGS || true
 unset EXTRA_FRONT_END_OPTIONS || true
@@ -10,16 +12,19 @@ unset EXTRA_FRONTEND_OPTIONS || true
 unset DART_VM_OPTIONS || true
 unset DART_FLAGS || true
 unset DART_DEFINES || true
+
 # Resolve Flutter ref; support branches or tags; default to stable
 REF="${FLUTTER_VERSION:-stable}"
 REPO="https://github.com/flutter/flutter.git"
 INSTALL_DIR="$HOME/flutter"
+
 echo "Requested Flutter ref: $REF"
 rm -rf "$INSTALL_DIR"
 # Start from stable to ensure a valid checkout exists
 if ! git clone --depth 1 --branch stable "$REPO" "$INSTALL_DIR"; then
   git clone --depth 1 "$REPO" "$INSTALL_DIR"
 fi
+
 pushd "$INSTALL_DIR"
 # Try branch first
 if git ls-remote --heads origin "$REF" | grep -q "$REF"; then
@@ -33,25 +38,33 @@ else
   echo "Ref '\''$REF'\'' not found; using stable"
 fi
 popd
+
 export PATH="$INSTALL_DIR/bin:$PATH"
 flutter --version
 flutter config --enable-web
 flutter doctor -v
+
 # Build in repo root
 flutter pub get
 flutter clean
 flutter build web --release --target=lib/main_client.dart
+
 # Ensure outputs
 test -f build/web/index.html
+
 # Fix legacy flutter.js and use modern index.html
+echo "===== Removing legacy flutter.js ====="
 rm -f build/web/flutter.js || true
+echo "===== Creating empty flutter.js ====="
 touch build/web/flutter.js
-cp -f web/index.html build/web/index.html
+echo "===== Copying our modern index.html to build/web ====="
+cp -f web/index.modern.html build/web/index.html
 cp -f build/web/index.html build/web/404.html
+
 # Verify modern index.html
-echo "===== verify build/web/index.html ====="
-cat build/web/index.html
 echo "===== check for flutter_bootstrap.js in index.html ====="
 grep -n "flutter_bootstrap.js" build/web/index.html || { echo "ERROR: modern loader not found"; exit 1; }
+echo "===== check for viewport meta in index.html ====="
+grep -n "viewport" build/web/index.html || { echo "ERROR: viewport meta not found"; exit 1; }
 echo "===== list build/web (root) ====="
 ls -la build/web/
