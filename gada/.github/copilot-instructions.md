@@ -40,11 +40,13 @@ The app is configured for automatic deployment to Netlify when pushing to the ma
 
 ### Multilingual Support
 - The app includes Arabic text support (RTL), as seen in loading messages like "جاري تحميل التطبيق..."
+- When editing text in HTML files, preserve the RTL text direction and ensure proper UTF-8 encoding
 
 ### Web-Specific Configurations
 - Service workers are currently disabled with `var serviceWorkerVersion = null;`
 - The app uses Flutter's new loader API: `_flutter.loader.load()`
-- UTF-8 encoding without BOM is critical for HTML files
+- UTF-8 encoding without BOM is critical for HTML files (use `[System.IO.File]::WriteAllText()` with `$utf8NoBom = New-Object System.Text.UTF8Encoding($false)` if editing on Windows)
+- The loading screen text appears while Flutter initializes
 
 ## Integration Points
 
@@ -54,8 +56,17 @@ The app is configured for automatic deployment to Netlify when pushing to the ma
 
 ### Flutter Web Optimizations
 - The build process uses `--no-tree-shake-icons` to preserve all icons
+- The Flutter version used for Netlify builds is specified in `netlify-build.sh` (currently 3.22.2)
+
+## File Organization
+- Entry point files (`main*.dart`) are in the root of the `lib/` directory
+- Web assets (HTML, icons, manifest) are in the `web/` directory
+- Build configuration is in the project root
 
 ## Common Pitfalls
 - Ensure all icon files in `web/icons/` are actual PNG images with correct dimensions (192×192, 512×512)
 - Build scripts require Unix-style line endings (LF, not CRLF)
 - The `setup.sh` script must be run before deployment to set correct permissions
+- Favicon needs multiple formats to ensure cross-browser compatibility
+- Remember to use cache-busting techniques for favicon updates (e.g., `?v=2` suffix)
+- When updating web content, test on multiple browsers to ensure compatibility
