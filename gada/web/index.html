@@ -68,3 +68,10 @@ if (!_flutter?.loader?.loadEntrypoint) {
   }).then(...);
   return;
 }
+<div id="loading" style="text-align:center;margin-top:40vh;">جاري تحميل التطبيق...</div>
+<script src="flutter_bootstrap.js" async></script>
+<script>
+  window.addEventListener('flutter-first-frame', () => {
+    document.getElementById('loading')?.remove();
+  });
+</script>
