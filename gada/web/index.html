@@ -63,9 +63,24 @@
   <script src="flutter.js"></script>
   <script>
     window.addEventListener('load', function () {
+      // إظهار رسالة تحميل أفضل للمستخدم
+      const loadingElement = document.getElementById('loading');
+      loadingElement.innerHTML = 'جاري تحميل التطبيق <span id="dots">...</span>';
+      
+      // إضافة نقاط متحركة أثناء التحميل
+      const dots = document.getElementById('dots');
+      const loadingAnimation = setInterval(() => {
+        if (dots.textContent.length >= 3) {
+          dots.textContent = '';
+        } else {
+          dots.textContent += '.';
+        }
+      }, 500);
+      
       _flutter.loader.load({
         serviceWorker: { serviceWorkerVersion: serviceWorkerVersion },
         onEntrypointLoaded: async function (engineInitializer) {
+          clearInterval(loadingAnimation);
           const appRunner = await engineInitializer.initializeEngine();
           document.getElementById('loading')?.remove();
           await appRunner.runApp();
