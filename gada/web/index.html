@@ -6,11 +6,13 @@
   <base href="/">
   <title>بنيان - خدمات بناء المنازل</title>
   <meta name="bunyan-build" content="v3-arabic-services">
+
   <!-- No cache headers for icons -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <!-- Favicon - Improved Implementation -->
+
+  <!-- Icons -->
   <link rel="shortcut icon" href="favicon.ico?v=2">
   <link rel="icon" href="favicon.ico?v=2" type="image/x-icon">
   <link rel="icon" href="icon.png?v=2" type="image/png">
@@ -19,74 +21,50 @@
   <link rel="apple-touch-icon" sizes="192x192" href="icons/Icon-192.png?v=2">
   <link rel="apple-touch-icon" sizes="512x512" href="icons/Icon-512.png?v=2">
   <link rel="manifest" href="manifest.json">
+
   <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      height: 100vh;
-      direction: rtl;
-    }
-    #loading {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100%;
-      color: #2e7d32;
-      font-size: 24px;
-      font-weight: bold;
-      background-color: #f5f5f5;
-    }
-    #loading::after {
-      content: '';
-      width: 20px;
-      height: 20px;
-      margin-right: 15px;
-      border: 3px solid #2e7d32;
-      border-radius: 50%;
-      border-top-color: transparent;
-      animation: spin 1s linear infinite;
-      display: inline-block;
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+    body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;margin:0;height:100vh;direction:rtl}
+    #loading{display:flex;justify-content:center;align-items:center;height:100%;color:#2e7d32;font-size:24px;font-weight:bold;background:#f5f5f5}
+    #loading::after{content:'';width:20px;height:20px;margin-right:15px;border:3px solid #2e7d32;border-radius:50%;border-top-color:transparent;animation:spin 1s linear infinite;display:inline-block}
+    @keyframes spin{to{transform:rotate(360deg)}}
   </style>
+
+  <script src="flutter.js" defer></script>
 </head>
 <body>
   <div id="loading">جاري تحميل التطبيق</div>
 
   <script>
-    // تعطيل Service Worker مؤقتًا (بدّله لاحقًا بـ {{flutter_service_worker_version}})
-    var serviceWorkerVersion = null;
-  </script>
-
-  <script src="flutter.js"></script>
-  <script>
     window.addEventListener('load', function () {
-      // إظهار رسالة تحميل أفضل للمستخدم
+      // نص تحميل لطيف
       const loadingElement = document.getElementById('loading');
       loadingElement.innerHTML = 'جاري تحميل التطبيق <span id="dots">...</span>';
-      
-      // إضافة نقاط متحركة أثناء التحميل
       const dots = document.getElementById('dots');
       const loadingAnimation = setInterval(() => {
-        if (dots.textContent.length >= 3) {
-          dots.textContent = '';
-        } else {
-          dots.textContent += '.';
-        }
+        dots.textContent = dots.textContent.length >= 3 ? '' : dots.textContent + '.';
       }, 500);
-      
-      _flutter.loader.load({
-        serviceWorker: { serviceWorkerVersion: serviceWorkerVersion },
-        onEntrypointLoaded: async function (engineInitializer) {
-          clearInterval(loadingAnimation);
-          const appRunner = await engineInitializer.initializeEngine();
-          document.getElementById('loading')?.remove();
-          await appRunner.runApp();
-        }
+
+      // ✅ استخدم توكن Flutter بدل المتغير المحلي
+      _flutter.loader.loadEntrypoint({
+        serviceWorker: { serviceWorkerVersion: {{flutter_service_worker_version}} }
+      }).then(async (engineInitializer) => {
+        clearInterval(loadingAnimation);
+        const appRunner = await engineInitializer.initializeEngine();
+        document.getElementById('loading')?.remove();
+        await appRunner.runApp();
+      }).catch(err => {
+        clearInterval(loadingAnimation);
+        loadingElement.textContent = 'تعذّر تشغيل التطبيق. جرّب تحديث الصفحة.';
+        console.error('[BUNYAN_BOOT]', err);
       });
     });
   </script>
 </body>
 </html>
+if (!_flutter?.loader?.loadEntrypoint) {
+  // دعم نسخ Flutter الأقدم
+  _flutter.loader.load({
+    serviceWorker: { serviceWorkerVersion: "{{flutter_service_worker_version}}" }
+  }).then(...);
+  return;
+}
