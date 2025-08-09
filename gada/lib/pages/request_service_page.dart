@@ -1,42 +1,114 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RequestServicePage extends StatefulWidget {
-  final String serviceType;
-
-  const RequestServicePage({Key? key, required this.serviceType}) : super(key: key);
+  const RequestServicePage({super.key});
 
   @override
-  _RequestServicePageState createState() => _RequestServicePageState();
+  State<RequestServicePage> createState() => _RequestServicePageState();
 }
 
+class _RequestServicePageState extends State<RequestServicePage> {
+  final _formKey = GlobalKey<FormState>();
+  final _name = TextEditingController();
+  final _phone = TextEditingController();
+  final _city = TextEditingController();
+  final _details = TextEditingController();
+  String _service = 'سباكة';
+
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'بنيان - خدمات بناء المنازل',
-      debugShowCheckedModeBanner: false,
-      locale: const Locale('ar'),
-      supportedLocales: const [Locale('ar'), Locale('en')],
-      theme: ThemeData(
-        useMaterial3: true,
-        colorSchemeSeed: const Color(0xFF6246EA),
-        fontFamily: 'Segoe UI',
-      ),
-      home: const HomePage(),
-    );
+  void dispose() {
+    _name.dispose();
+    _phone.dispose();
+    _city.dispose();
+    _details.dispose();
+    super.dispose();
   }
-}
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  Future<void> _openWhatsApp() async {
-    const phone = '9665XXXXXXXX'; // ← عدّل الرقم
-    final text = Uri.encodeComponent('مرحبًا، أحتاج مساعدة في خدمة البناء عبر تطبيق بنيان');
-    final uri = Uri.parse('https://wa.me/$phone?text=$text');
+  Future<void> _submitViaWhatsapp() async {
+    if (!_formKey.currentState!.validate()) return;
+    const phoneWa = '966548891929'; // ← رقم واتساب لاستقبال الطلبات
+    final msg = '''
+طلب خدمة من تطبيق بنيان
+الخدمة: $_service
+الاسم: ${_name.text}
+الجوال: ${_phone.text}
+المدينة/الموقع: ${_city.text}
+التفاصيل: ${_details.text}
+''';
+    final uri =
+        Uri.parse('https://wa.me/$phoneWa?text=${Uri.encodeComponent(msg)}');
     await launchUrl(uri, mode: LaunchMode.platformDefault);
   }
 
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: TextDire
+      textDirection: TextDirection.rtl,
+      child: Scaffold(
+        appBar: AppBar(title: const Text('طلب خدمة')),
+        body: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 700),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Form(
+                key: _formKey,
+                child: ListView(
+                  children: [
+                    DropdownButtonFormField<String>(
+                      value: _service,
+                      decoration:
+                          const InputDecoration(labelText: 'نوع الخدمة'),
+                      items: const [
+                        DropdownMenuItem(value: 'سباكة', child: Text('سباكة')),
+                        DropdownMenuItem(
+                            value: 'كهرباء', child: Text('كهرباء')),
+                        DropdownMenuItem(value: 'أسمنت', child: Text('أسمنت')),
+                        DropdownMenuItem(value: 'بلك', child: Text('بلك')),
+                        DropdownMenuItem(value: 'مقاول', child: Text('مقاول')),
+                        DropdownMenuItem(value: 'مشرف', child: Text('مشرف')),
+                      ],
+                      onChanged: (v) =>
+                          setState(() => _service = v ?? _service),
+                    ),
+                    TextFormField(
+                      controller: _name,
+                      decoration: const InputDecoration(labelText: 'الاسم'),
+                      validator: (v) =>
+                          (v == null || v.isEmpty) ? 'أدخل الاسم' : null,
+                    ),
+                    TextFormField(
+                      controller: _phone,
+                      decoration: const InputDecoration(labelText: 'الجوال'),
+                      keyboardType: TextInputType.phone,
+                      validator: (v) => (v == null || v.length < 9)
+                          ? 'أدخل رقمًا صحيحًا'
+                          : null,
+                    ),
+                    TextFormField(
+                      controller: _city,
+                      decoration:
+                          const InputDecoration(labelText: 'المدينة/الموقع'),
+                    ),
+                    TextFormField(
+                      controller: _details,
+                      decoration:
+                          const InputDecoration(labelText: 'تفاصيل إضافية'),
+                      maxLines: 4,
+                    ),
+                    const SizedBox(height: 16),
+                    FilledButton(
+                      onPressed: _submitViaWhatsapp,
+                      child: const Text('إرسال عبر واتساب'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

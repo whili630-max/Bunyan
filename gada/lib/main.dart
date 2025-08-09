@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'pages/request_service_page.dart';
+import 'pages/supplier_signup_page.dart';
 
 void main() => runApp(const BunyanApp());
 
@@ -9,87 +10,74 @@ class BunyanApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'بنيان - خدمات بناء المنازل',
+      title: 'بنيان',
       debugShowCheckedModeBanner: false,
       locale: const Locale('ar'),
       supportedLocales: const [Locale('ar'), Locale('en')],
       theme: ThemeData(
         useMaterial3: true,
-        colorSchemeSeed: const Color(0xFF6246EA),
+        colorSchemeSeed: const Color(0xFF2E7D32),
         fontFamily: 'Segoe UI',
       ),
-      home: const HomePage(),
+      home: const HomeScreen(),
     );
   }
 }
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  Future<void> _openWhatsApp() async {
-    final uri =
-        Uri.parse('https://wa.me/9665XXXXXXXX'); // ضع رقم واتساب المورد/الدعم
-    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {}
-  }
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        appBar: AppBar(title: const Text('بنيان - خدمات بناء المنازل')),
-        body: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 900),
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'اختَر الخدمة التي تحتاجها',
-                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
-                  ),
-                  const SizedBox(height: 24),
-                  Wrap(
-                    spacing: 12,
-                    runSpacing: 12,
-                    alignment: WrapAlignment.center,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          // TODO: افتح صفحة نموذج الطلب
-                        },
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 12),
-                          child: Text('اطلب خدمة'),
-                        ),
-                      ),
-                      OutlinedButton(
-                        onPressed: () {
-                          // TODO: افتح صفحة تسجيل المورد
-                        },
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 12),
-                          child: Text('تسجيل مورد'),
-                        ),
-                      ),
-                      FilledButton.tonal(
-                        onPressed: _openWhatsApp,
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 12),
-                          child: Text('تواصل واتساب'),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('بنيان - خدمات البناء 2025'),
+        centerTitle: true,
+      ),
+      body: Directionality(
+        textDirection: TextDirection.rtl,
+        child: GridView.count(
+          crossAxisCount: 2,
+          padding: const EdgeInsets.all(20),
+          mainAxisSpacing: 15,
+          crossAxisSpacing: 15,
+          children: [
+            _buildServiceCard(context, 'سباكة', Icons.plumbing),
+            _buildServiceCard(context, 'كهرباء', Icons.electrical_services),
+            _buildServiceCard(context, 'أسمنت', Icons.construction),
+            _buildServiceCard(context, 'مقاولين', Icons.engineering),
+            _buildServiceCard(context, 'مشرفين', Icons.supervised_user_circle),
+            _buildServiceCard(context, 'خدمات أخرى', Icons.home_repair_service),
+          ],
+        ),
+      ),
+      actions: const [],
+    );
+  }
+
+  Widget _buildServiceCard(BuildContext context, String title, IconData icon) {
+    return Card(
+      elevation: 3,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+      child: InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => RequestServicePage(serviceType: title),
             ),
-          ),
+          );
+        },
+        borderRadius: BorderRadius.circular(14),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 48),
+            const SizedBox(height: 10),
+            Text(title,
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          ],
         ),
       ),
     );
