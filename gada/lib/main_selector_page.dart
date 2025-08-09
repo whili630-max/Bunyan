@@ -10,11 +10,12 @@ class BunyanApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Bunyan',
+      title: 'بنيان - خدمات البناء',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.green,
         fontFamily: 'Arial',
+        scaffoldBackgroundColor: Colors.grey[100],
       ),
       home: const HomeScreen(),
     );
@@ -28,7 +29,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('خدمات بناء المنازل'),
+        title: const Text('بنيان - خدمات البناء 2025'),
         centerTitle: true,
         backgroundColor: Colors.green.shade700,
         foregroundColor: Colors.white,
