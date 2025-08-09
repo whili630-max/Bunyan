@@ -1,0 +1,6 @@
+// This file is just a placeholder
+// Please follow these steps manually to create a favicon.ico:
+// 1. Take the existing Icon-192.png from web/icons/ folder
+// 2. Use an online converter like https://convertico.com/ or https://favicon.io/ to convert it to .ico format
+// 3. Save the generated favicon.ico in this web directory
+// 4. Remove this placeholder file after you've created the actual favicon.ico
