@@ -30,20 +30,25 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('خدمات بناء المنازل'),
         centerTitle: true,
+        backgroundColor: Colors.green.shade700,
+        foregroundColor: Colors.white,
       ),
-      body: GridView.count(
-        crossAxisCount: 2,
-        padding: const EdgeInsets.all(20),
-        mainAxisSpacing: 15,
-        crossAxisSpacing: 15,
-        children: [
-          _buildServiceCard('سباكة', Icons.plumbing),
-          _buildServiceCard('كهرباء', Icons.electrical_services),
-          _buildServiceCard('أسمنت', Icons.construction),
-          _buildServiceCard('مقاولين', Icons.engineering),
-          _buildServiceCard('مشرفين', Icons.supervised_user_circle),
-          _buildServiceCard('خدمات أخرى', Icons.home_repair_service),
-        ],
+      body: Directionality(
+        textDirection: TextDirection.rtl,
+        child: GridView.count(
+          crossAxisCount: 2,
+          padding: const EdgeInsets.all(20),
+          mainAxisSpacing: 15,
+          crossAxisSpacing: 15,
+          children: [
+            _buildServiceCard('سباكة', Icons.plumbing),
+            _buildServiceCard('كهرباء', Icons.electrical_services),
+            _buildServiceCard('أسمنت', Icons.construction),
+            _buildServiceCard('مقاولين', Icons.engineering),
+            _buildServiceCard('مشرفين', Icons.supervised_user_circle),
+            _buildServiceCard('خدمات أخرى', Icons.home_repair_service),
+          ],
+        ),
       ),
     );
   }
