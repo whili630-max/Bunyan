@@ -1,51 +1,73 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const SelectorPage());
+  runApp(const BunyanApp());
 }
 
-class SelectorPage extends StatelessWidget {
-  const SelectorPage({super.key});
+class BunyanApp extends StatelessWidget {
+  const BunyanApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Bunyan Selector',
+      title: 'Bunyan',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.green,
+        fontFamily: 'Arial',
       ),
-      home: const SelectorHomePage(title: 'Bunyan - Select Mode'),
+      home: const HomeScreen(),
     );
   }
 }
 
-class SelectorHomePage extends StatelessWidget {
-  const SelectorHomePage({super.key, required this.title});
-
-  final String title;
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: const Text('خدمات بناء المنازل'),
+        centerTitle: true,
       ),
-      body: Center(
+      body: GridView.count(
+        crossAxisCount: 2,
+        padding: const EdgeInsets.all(20),
+        mainAxisSpacing: 15,
+        crossAxisSpacing: 15,
+        children: [
+          _buildServiceCard('سباكة', Icons.plumbing),
+          _buildServiceCard('كهرباء', Icons.electrical_services),
+          _buildServiceCard('أسمنت', Icons.construction),
+          _buildServiceCard('مقاولين', Icons.engineering),
+          _buildServiceCard('مشرفين', Icons.supervised_user_circle),
+          _buildServiceCard('خدمات أخرى', Icons.home_repair_service),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildServiceCard(String title, IconData icon) {
+    return Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: InkWell(
+        onTap: () {
+          // هنا تحدد الإجراء عند الضغط (فتح نموذج طلب مثلاً)
+        },
+        borderRadius: BorderRadius.circular(15),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            ElevatedButton(
-              onPressed: () {
-                // Navigate to client mode
-              },
-              child: const Text('Client Mode'),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Navigate to admin mode
-              },
-              child: const Text('Admin Mode'),
+          children: [
+            Icon(icon, size: 50, color: Colors.green.shade700),
+            const SizedBox(height: 10),
+            Text(
+              title, 
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              textDirection: TextDirection.rtl,
             ),
           ],
         ),
