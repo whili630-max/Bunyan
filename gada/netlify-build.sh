@@ -19,15 +19,19 @@ flutter config --enable-web
 flutter pub get
 flutter clean
 
-# ⬇️ ابنِ من main.dart
-flutter build web --release --target=lib/main.dart
-
-# أعِد توليد الأيقونات (تأكد من وجود حزمة image)
+# 🔧 توليد الأيقونات أولاً لضمان دخولها داخل build
 dart run lib/generate_icons.dart || echo "Icon generation skipped"
 
-# تأكد من حذف أي ملفات قديمة تشير ل _flutter
+# ⬇️ ابنِ من main.dart بعد توفر الأيقونات الصحيحة
+flutter build web --release --target=lib/main.dart
+
+# نسخ الأيقونات المولَّدة إلى مجلد البناء (إذا لم ينسخها Flutter لأنه قد يعتمد النسخ السابقة)
+cp -f web/icons/Icon-192.png build/web/icons/Icon-192.png || true
+cp -f web/icons/Icon-512.png build/web/icons/Icon-512.png || true
+
+# إزالة أي بقايا لملفات flutter.js القديمة إن وُجدت
 rm -f build/web/flutter.js || true
-grep -q "_flutter" build/web/index.html && sed -i 's/_flutter[[:alnum:]_.-]*//g' build/web/index.html || true
+sed -i 's/_flutter[[:alnum:]_.-]*//g' build/web/index.html || true
 
 # ملفات مساعدة للنشر
 test -f build/web/_redirects || echo "/* /index.html 200" > build/web/_redirects
