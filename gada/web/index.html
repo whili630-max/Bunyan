@@ -11,6 +11,7 @@
   <meta name="mobile-web-app-capable" content="yes" />
 
   <!-- Manifest & Icons -->
+  <!-- TODO: استبدل Icon-192.png و Icon-512.png بأيقونات PNG حقيقية (ليست place-holder 1KB/2KB) لتفادي أخطاء التحميل في المتصفح -->
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" type="image/png" sizes="192x192" href="icons/Icon-192.png" />
   <link rel="icon" type="image/png" sizes="512x512" href="icons/Icon-512.png" />
@@ -27,17 +28,8 @@
   <noscript>لتشغيل Bunyan فعِّل الجافاسكربت.</noscript>
 
   <div id="loading">جاري تحميل التطبيق…</div>
-<script src="flutter.js"></script>
-<script>
-  _flutter.loader.loadEntrypoint({
-    entrypointUrl: "main.dart.js",
-    onEntrypointLoaded: function(engineInitializer) {
-      engineInitializer.initializeEngine().then(function(appRunner) {
-        appRunner.runApp();
-      });
-    }
-  });
-</script>
+  <!-- محمّل Flutter الحديث -->
+  <script src="flutter_bootstrap.js" async></script>
   <script>
     // شِل شاشة التحميل عند أول إطار من Flutter
     window.addEventListener('flutter-first-frame', () => {
