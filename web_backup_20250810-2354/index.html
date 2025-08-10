@@ -1,0 +1,28 @@
+﻿<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <base href="/">
+  <title>بنيان - خدمات بناء المنازل</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="favicon.ico">
+  <link rel="preload" href="flutter_bootstrap.js" as="script">
+  <style>
+    html,body{height:100%;margin:0}
+    #loading{
+      position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+      font-family:system-ui,sans-serif;pointer-events:none
+    }
+  </style>
+</head>
+<body>
+  <div id="loading">جاري تحميل التطبيق…</div>
+  <script src="flutter_bootstrap.js" async></script>
+  <script>
+    window.addEventListener('flutter-first-frame', () => {
+      document.getElementById('loading')?.remove();
+    });
+  </script>
+</body>
+</html>

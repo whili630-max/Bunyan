@@ -44,5 +44,5 @@ void _gen(int size) {
   outDir.createSync(recursive: true);
   final file = File('web/icons/Icon-$size.png');
   file.writeAsBytesSync(img.encodePng(canvas));
-  print('Wrote '+file.path+' ('+file.lengthSync().toString()+' bytes)');
+  print('Wrote ' + file.path + ' (' + file.lengthSync().toString() + ' bytes)');
 }

@@ -7,7 +7,8 @@ import 'package:image/image.dart' as img;
 // ألوان بنمط ARGB (int)
 final primaryColor = img.ColorInt16.rgba(0x2E, 0x7D, 0x32, 0xFF); // أخضر
 final backgroundColor = img.ColorInt16.rgba(0xFF, 0xFF, 0xFF, 0xFF); // أبيض
-final textColor = img.ColorInt16.rgba(0xFF, 0xFF, 0xFF, 0xFF); // أبيض للنص داخل الدائرة
+final textColor =
+    img.ColorInt16.rgba(0xFF, 0xFF, 0xFF, 0xFF); // أبيض للنص داخل الدائرة
 
 Future<void> main() async {
   for (final size in [192, 512]) {
@@ -33,10 +34,10 @@ img.Image _buildIcon(int size) {
       x: cx + (size * 0.03).toInt(),
       y: cy + (size * 0.03).toInt(),
       radius: radius,
-  color: img.ColorInt16.rgba(0x00, 0x00, 0x00, 0x22)); // ظل شفاف
+      color: img.ColorInt16.rgba(0x00, 0x00, 0x00, 0x22)); // ظل شفاف
   // دائرة أصلية
   img.drawCircle(canvas,
-  x: cx, y: cy, radius: radius, color: primaryColor, antialias: true);
+      x: cx, y: cy, radius: radius, color: primaryColor, antialias: true);
 
   // حرف "ب" باستخدام فونت system fallback (حزمة image لا ترسم نصاً عربياً معقداً؛ نستخدم مساراً بدائياً) => سنرسم شكل بسيط
   // بديل: رسم شكل هندسي يمثل الحرف.
@@ -52,8 +53,8 @@ void _drawArabicB(img.Image dst, int cx, int cy, int size) {
   // لا حاجة لمتغير لون إضافي
   // إطار نصف دائرة (نستخدم عدة دوائر متراكبة لمحاكاة سمك الخط)
   for (int s = 0; s < stroke; s++) {
-  img.drawCircle(dst,
-    x: cx, y: cy, radius: r - s, color: textColor, antialias: true);
+    img.drawCircle(dst,
+        x: cx, y: cy, radius: r - s, color: textColor, antialias: true);
   }
   // مسح النصف العلوي تقريباً لخلق شكل نصف دائرة
   final cutHeight = (r * 0.6).toInt();
@@ -61,7 +62,7 @@ void _drawArabicB(img.Image dst, int cx, int cy, int size) {
     if (y < 0 || y >= dst.height) continue;
     for (int x = cx - r; x <= cx + r; x++) {
       if (x < 0 || x >= dst.width) continue;
-  dst.setPixel(x, y, backgroundColor);
+      dst.setPixel(x, y, backgroundColor);
     }
   }
   // نقطة الحرف أسفل اليمين
@@ -70,6 +71,6 @@ void _drawArabicB(img.Image dst, int cx, int cy, int size) {
       x: cx + r ~/ 3,
       y: cy + r ~/ 2,
       radius: dotR,
-  color: textColor,
+      color: textColor,
       antialias: true);
 }
