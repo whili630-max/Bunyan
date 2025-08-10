@@ -22,6 +22,13 @@ flutter clean
 # ⬇️ ابنِ من main.dart
 flutter build web --release --target=lib/main.dart
 
+# أعِد توليد الأيقونات (تأكد من وجود حزمة image)
+dart run lib/generate_icons.dart || echo "Icon generation skipped"
+
+# تأكد من حذف أي ملفات قديمة تشير ل _flutter
+rm -f build/web/flutter.js || true
+grep -q "_flutter" build/web/index.html && sed -i 's/_flutter[[:alnum:]_.-]*//g' build/web/index.html || true
+
 # ملفات مساعدة للنشر
 test -f build/web/_redirects || echo "/* /index.html 200" > build/web/_redirects
 cp -f build/web/index.html build/web/404.html

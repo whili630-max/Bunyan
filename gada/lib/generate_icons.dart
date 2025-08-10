@@ -1,71 +1,75 @@
-// Generate icons for Bunyan app
-// Run with: flutter run -t lib/generate_icons.dart
+// توليد أيقونات PWA بحرف "ب" باستخدام حزمة image (لا يعتمد على Flutter UI)
+// التشغيل: dart run lib/generate_icons.dart
 
 import 'dart:io';
-import 'dart:ui' as ui;
-import 'package:flutter/material.dart';
+import 'package:image/image.dart' as img;
 
-void main() async {
-  // Ensure we have a headless Flutter binding
-  WidgetsFlutterBinding.ensureInitialized();
+// ألوان بنمط ARGB (int)
+final primaryColor = img.ColorInt16.rgba(0x2E, 0x7D, 0x32, 0xFF); // أخضر
+final backgroundColor = img.ColorInt16.rgba(0xFF, 0xFF, 0xFF, 0xFF); // أبيض
+final textColor = img.ColorInt16.rgba(0xFF, 0xFF, 0xFF, 0xFF); // أبيض للنص داخل الدائرة
 
-  // Create the icon colors
-  const primaryColor = Color(0xFF2E7D32); // Green color from the theme
-  const backgroundColor = Colors.white;
-  const textColor = Colors.white;
-
-  // Generate the icons
-  await generateIcon(192, primaryColor, backgroundColor, textColor);
-  await generateIcon(512, primaryColor, backgroundColor, textColor);
-
-  print('Icons generated successfully!');
-  exit(0);
+Future<void> main() async {
+  for (final size in [192, 512]) {
+    final i = _buildIcon(size);
+    final file = File('web/icons/Icon-$size.png');
+    await file.writeAsBytes(img.encodePng(i));
+    stdout.writeln('Generated ${file.path} (${file.lengthSync()} bytes)');
+  }
+  stdout.writeln('Icons regenerated successfully.');
 }
 
-Future<void> generateIcon(int size, Color primaryColor, Color backgroundColor,
-    Color textColor) async {
-  final recorder = ui.PictureRecorder();
-  final canvas = Canvas(recorder);
+img.Image _buildIcon(int size) {
+  final canvas = img.Image(width: size, height: size);
+  // خلفية
+  img.fill(canvas, color: backgroundColor);
 
-  // Draw background
-  final bgPaint = Paint()..color = backgroundColor;
-  canvas.drawRect(
-      Rect.fromLTWH(0, 0, size.toDouble(), size.toDouble()), bgPaint);
+  // دائرة ملونة مع ظل خفيف
+  final radius = (size * 0.38).toInt();
+  final cx = size ~/ 2;
+  final cy = size ~/ 2;
+  // ظل
+  img.drawCircle(canvas,
+      x: cx + (size * 0.03).toInt(),
+      y: cy + (size * 0.03).toInt(),
+      radius: radius,
+  color: img.ColorInt16.rgba(0x00, 0x00, 0x00, 0x22)); // ظل شفاف
+  // دائرة أصلية
+  img.drawCircle(canvas,
+  x: cx, y: cy, radius: radius, color: primaryColor, antialias: true);
 
-  // Draw a colored circle
-  final circlePaint = Paint()..color = primaryColor;
-  canvas.drawCircle(Offset(size / 2, size / 2), size / 2.5, circlePaint);
+  // حرف "ب" باستخدام فونت system fallback (حزمة image لا ترسم نصاً عربياً معقداً؛ نستخدم مساراً بدائياً) => سنرسم شكل بسيط
+  // بديل: رسم شكل هندسي يمثل الحرف.
+  final letterSize = (radius * 1.2).toInt();
+  _drawArabicB(canvas, cx, cy, letterSize);
+  return canvas;
+}
 
-  // Draw text "ب" (first letter of Bunyan in Arabic)
-  final textPainter = TextPainter(
-    text: TextSpan(
-      text: 'ب',
-      style: TextStyle(
-        color: textColor,
-        fontSize: size / 2,
-        fontWeight: FontWeight.bold,
-      ),
-    ),
-    textDirection: TextDirection.rtl,
-  );
-
-  textPainter.layout();
-  textPainter.paint(
-    canvas,
-    Offset(
-      (size - textPainter.width) / 2,
-      (size - textPainter.height) / 2,
-    ),
-  );
-
-  // Convert to image
-  final picture = recorder.endRecording();
-  final img = await picture.toImage(size, size);
-  final byteData = await img.toByteData(format: ui.ImageByteFormat.png);
-  final buffer = byteData!.buffer.asUint8List();
-
-  // Save to file
-  final file = File('web/icons/Icon-$size.png');
-  await file.writeAsBytes(buffer);
-  print('Generated icon: ${file.path}');
+void _drawArabicB(img.Image dst, int cx, int cy, int size) {
+  // رسم شكل تقريبي لحرف "ب": نصف دائرة + نقطة
+  final stroke = (size * 0.12).toInt();
+  final r = size ~/ 2;
+  // لا حاجة لمتغير لون إضافي
+  // إطار نصف دائرة (نستخدم عدة دوائر متراكبة لمحاكاة سمك الخط)
+  for (int s = 0; s < stroke; s++) {
+  img.drawCircle(dst,
+    x: cx, y: cy, radius: r - s, color: textColor, antialias: true);
+  }
+  // مسح النصف العلوي تقريباً لخلق شكل نصف دائرة
+  final cutHeight = (r * 0.6).toInt();
+  for (int y = cy - r; y < cy - r + cutHeight; y++) {
+    if (y < 0 || y >= dst.height) continue;
+    for (int x = cx - r; x <= cx + r; x++) {
+      if (x < 0 || x >= dst.width) continue;
+  dst.setPixel(x, y, backgroundColor);
+    }
+  }
+  // نقطة الحرف أسفل اليمين
+  final dotR = (stroke * 0.9).toInt();
+  img.drawCircle(dst,
+      x: cx + r ~/ 3,
+      y: cy + r ~/ 2,
+      radius: dotR,
+  color: textColor,
+      antialias: true);
 }
