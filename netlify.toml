@@ -1,15 +1,12 @@
-# netlify.toml - ملف إعدادات مبسط
-[build]
-  command = "bash netlify-build.sh"
+﻿[build]
   publish = "build/web"
+  command = "bash netlify-build.sh"
 
-[build.environment]
-  NODE_VERSION = "20"
-
-# إعادة توجيه كل الروابط للصفحة الرئيسية (مهم للـ SPA)
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
 [build.environment]
   NODE_VERSION = "22"
+  FLUTTER_VERSION = "stable"
+
+[[redirects]]
+  from = "/*"
+  to   = "/index.html"
+  status = 200
