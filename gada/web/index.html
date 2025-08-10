@@ -1,27 +1,41 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>بنيان - خدمات بناء المنازل</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <base href="/" />
 
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="favicon.ico">
-  <link rel="icon" type="image/png" sizes="192x192" href="icons/Icon-192.png">
-  <link rel="icon" type="image/png" sizes="512x512" href="icons/Icon-512.png">
+  <title>بنيان - خدمات بناء المنازل</title>
+  <meta name="theme-color" content="#0175C2" />
+  <!-- لمنع التحذير: استخدم الميتا الحديثة فقط -->
+  <meta name="mobile-web-app-capable" content="yes" />
+
+  <!-- Manifest & Icons -->
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/Icon-192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="icons/Icon-512.png" />
+  <link rel="apple-touch-icon" sizes="192x192" href="icons/Icon-192.png" />
+  <link rel="apple-touch-icon" sizes="512x512" href="icons/Icon-512.png" />
+
+  <style>
+    html,body{height:100%}
+    body{margin:0;font-family:"Segoe UI",Tahoma,Arial,sans-serif}
+    #loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+  </style>
 </head>
 <body>
-  <div id="loading" style="text-align:center;margin-top:40vh">جاري تحميل التطبيق…</div>
+  <noscript>لتشغيل Bunyan فعِّل الجافاسكربت.</noscript>
 
-  <!-- مهم لنسخة Flutter الحديثة -->
-  <script>const serviceWorkerVersion = {{flutter_service_worker_version}};</script>
+  <div id="loading">جاري تحميل التطبيق…</div>
+
+  <!-- محمّل Flutter الحديث فقط -->
   <script src="flutter_bootstrap.js" async></script>
 
   <script>
-    window.addEventListener('flutter-first-frame', () =>
-      document.getElementById('loading')?.remove()
-    );
+    // شِل شاشة التحميل عند أول إطار من Flutter
+    window.addEventListener('flutter-first-frame', () => {
+      document.getElementById('loading')?.remove();
+    });
   </script>
 </body>
 </html>
-
