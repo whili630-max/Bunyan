@@ -1,23 +1,15 @@
+# اكتب ملف netlify.toml من جديد بقسم build.environment واحد
+Set-Content netlify.toml @'
 [build]
-  command = "bash gada/netlify-build.sh"
-  publish = "gada/build/web"
+  publish = "build/web"
+  command = "bash netlify-build.sh"
 
-[[headers]]
-  for = "/index.html"
-  [headers.values]
-    Cache-Control = "no-cache, no-store, must-revalidate, max-age=0"
+[build.environment]
+  NODE_VERSION   = "22"     # أو "20" لو حاب LTS
+  FLUTTER_VERSION = "stable"
 
-[[headers]]
-  for = "/manifest.json"
-  [headers.values]
-    Cache-Control = "no-cache, no-store, must-revalidate, max-age=0"
-
-[[headers]]
-  for = "/flutter_service_worker.js"
-  [headers.values]
-    Cache-Control = "no-cache, no-store, must-revalidate, max-age=0"
-
-[[headers]]
-  for = "/version.json"
-  [headers.values]
-    Cache-Control = "no-cache, no-store, must-revalidate, max-age=0"
+[[redirects]]
+  from = "/*"
+  to   = "/index.html"
+  status = 200
+'@ -Encoding utf8
