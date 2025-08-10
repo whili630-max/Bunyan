@@ -1,35 +1,40 @@
 #!/usr/bin/env bash
 set -euo pipefail
-set -x
 
-unset FLUTTER_TOOL_ARGS || true
-unset EXTRA_FRONT_END_OPTIONS || true
-unset EXTRA_FRONTEND_OPTIONS || true
-unset DART_VM_OPTIONS || true
-unset DART_FLAGS || true
-unset DART_DEFINES || true
+unset FLUTTER_TOOL_ARGS EXTRA_FRONT_END_OPTIONS EXTRA_FRONTEND_OPTIONS DART_VM_OPTIONS DART_FLAGS DART_DEFINES || true
 
 REF="${FLUTTER_VERSION:-stable}"
 REPO="https://github.com/flutter/flutter.git"
 INSTALL_DIR="$HOME/flutter"
 rm -rf "$INSTALL_DIR"
-git clone --depth 1 --branch stable "$REPO" "$INSTALL_DIR" || git clone --depth 1 "$REPO" "$INSTALL_DIR"
+if ! git clone --depth 1 --branch stable "$REPO" "$INSTALL_DIR"; then
+  git clone --depth 1 "$REPO" "$INSTALL_DIR"
+fi
+pushd "$INSTALL_DIR" >/dev/null
+if git ls-remote --heads origin "$REF" | grep -q "$REF"; then
+  git fetch --depth 1 origin "$REF" && git checkout -B "$REF" "origin/$REF"
+elif git ls-remote --tags origin "refs/tags/$REF" | grep -q "$REF"; then
+  git fetch --depth 1 origin "refs/tags/$REF:refs/tags/$REF" || true
+  git checkout -f "refs/tags/$REF" || git checkout -f "tags/$REF" || true
+fi
+popd >/dev/null
 export PATH="$INSTALL_DIR/bin:$PATH"
 
 flutter --version
 flutter config --enable-web
+flutter doctor -v
 flutter pub get
 flutter clean
 
-# بعض الإصدارات ما فيها --web-renderer
-if flutter build web -h | grep -q -- '--web-renderer'; then
-  RENDER_ARGS=(--web-renderer canvaskit)
-else
-  RENDER_ARGS=()
+# حدد الهدف تلقائيا
+TARGET=""
+if [ -f "lib/main_client.dart" ]; then
+  TARGET="--target=lib/main_client.dart"
 fi
 
-flutter build web --release "${RENDER_ARGS[@]:-}" --target=lib/main_client.dart
+flutter build web --release $TARGET
 
 test -f build/web/index.html
 cp -f build/web/index.html build/web/404.html
-echo '/* /index.html 200' > build/web/_redirects
+echo "===== list build/web (root) ====="
+ls -la build/web/

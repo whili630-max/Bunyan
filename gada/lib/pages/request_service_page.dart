@@ -21,7 +21,7 @@ class _RequestServicePageState extends State<RequestServicePage> {
   @override
   void initState() {
     super.initState();
-  _service = widget.serviceType ?? serviceCategories.first;
+    _service = widget.serviceType ?? serviceCategories.first;
   }
 
   @override
@@ -66,12 +66,14 @@ class _RequestServicePageState extends State<RequestServicePage> {
                   children: [
                     DropdownButtonFormField<String>(
                       value: _service,
-                      decoration: const InputDecoration(labelText: 'نوع الخدمة'),
+                      decoration:
+                          const InputDecoration(labelText: 'نوع الخدمة'),
                       items: [
                         for (final s in serviceCategories)
                           DropdownMenuItem(value: s, child: Text(s)),
                       ],
-                      onChanged: (v) => setState(() => _service = v ?? _service),
+                      onChanged: (v) =>
+                          setState(() => _service = v ?? _service),
                     ),
                     TextFormField(
                       controller: _name,

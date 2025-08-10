@@ -74,7 +74,8 @@ class _SupplierSignupPageState extends State<SupplierSignupPage> {
                         for (final s in serviceCategories)
                           DropdownMenuItem(value: s, child: Text(s)),
                       ],
-                      onChanged: (v) => setState(() => _category = v ?? _category),
+                      onChanged: (v) =>
+                          setState(() => _category = v ?? _category),
                     ),
                     const SizedBox(height: 16),
                     FilledButton(
