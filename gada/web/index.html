@@ -27,10 +27,17 @@
   <noscript>لتشغيل Bunyan فعِّل الجافاسكربت.</noscript>
 
   <div id="loading">جاري تحميل التطبيق…</div>
-
-  <!-- محمّل Flutter الحديث فقط -->
-  <script src="flutter_bootstrap.js" async></script>
-
+<script src="flutter.js"></script>
+<script>
+  _flutter.loader.loadEntrypoint({
+    entrypointUrl: "main.dart.js",
+    onEntrypointLoaded: function(engineInitializer) {
+      engineInitializer.initializeEngine().then(function(appRunner) {
+        appRunner.runApp();
+      });
+    }
+  });
+</script>
   <script>
     // شِل شاشة التحميل عند أول إطار من Flutter
     window.addEventListener('flutter-first-frame', () => {
