@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+﻿#!/usr/bin/env bash
 set -euo pipefail
 set -x
 
@@ -47,7 +47,7 @@ flutter doctor -v
 # Build in repo root
 flutter pub get
 flutter clean
-flutter build web --release --target=lib/main_client.dart
+flutter build web --release --web-renderer canvaskit --target=lib/main_client.dart
 
 # Ensure outputs
 test -f build/web/index.html
