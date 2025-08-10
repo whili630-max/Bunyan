@@ -42,3 +42,4 @@ cp -f build/web/index.html build/web/404.html
 
 echo "ØªÙ… Ø¨Ù†Ø§Ø¡ Ø§Ù„ØªØ·Ø¨ÙŠÙ‚ Ø¨Ù†Ø¬Ø§Ø­ Ù…Ù† lib/main.dart"
 
+
