@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../constants.dart';
 
 class RequestServicePage extends StatefulWidget {
   final String? serviceType;
@@ -20,7 +21,7 @@ class _RequestServicePageState extends State<RequestServicePage> {
   @override
   void initState() {
     super.initState();
-    _service = widget.serviceType ?? 'سباكة';
+  _service = widget.serviceType ?? serviceCategories.first;
   }
 
   @override
@@ -65,19 +66,12 @@ class _RequestServicePageState extends State<RequestServicePage> {
                   children: [
                     DropdownButtonFormField<String>(
                       value: _service,
-                      decoration:
-                          const InputDecoration(labelText: 'نوع الخدمة'),
-                      items: const [
-                        DropdownMenuItem(value: 'سباكة', child: Text('سباكة')),
-                        DropdownMenuItem(
-                            value: 'كهرباء', child: Text('كهرباء')),
-                        DropdownMenuItem(value: 'أسمنت', child: Text('أسمنت')),
-                        DropdownMenuItem(value: 'بلك', child: Text('بلك')),
-                        DropdownMenuItem(value: 'مقاول', child: Text('مقاول')),
-                        DropdownMenuItem(value: 'مشرف', child: Text('مشرف')),
+                      decoration: const InputDecoration(labelText: 'نوع الخدمة'),
+                      items: [
+                        for (final s in serviceCategories)
+                          DropdownMenuItem(value: s, child: Text(s)),
                       ],
-                      onChanged: (v) =>
-                          setState(() => _service = v ?? _service),
+                      onChanged: (v) => setState(() => _service = v ?? _service),
                     ),
                     TextFormField(
                       controller: _name,

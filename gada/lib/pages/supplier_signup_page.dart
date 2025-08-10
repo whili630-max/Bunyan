@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../constants.dart';
 
 class SupplierSignupPage extends StatefulWidget {
   const SupplierSignupPage({super.key});
@@ -12,7 +13,7 @@ class _SupplierSignupPageState extends State<SupplierSignupPage> {
   final _formKey = GlobalKey<FormState>();
   final _name = TextEditingController();
   final _phone = TextEditingController();
-  String _category = 'سباكة';
+  String _category = serviceCategories.first;
 
   @override
   void dispose() {
@@ -69,17 +70,11 @@ class _SupplierSignupPageState extends State<SupplierSignupPage> {
                     DropdownButtonFormField<String>(
                       value: _category,
                       decoration: const InputDecoration(labelText: 'التخصص'),
-                      items: const [
-                        DropdownMenuItem(value: 'سباكة', child: Text('سباكة')),
-                        DropdownMenuItem(
-                            value: 'كهرباء', child: Text('كهرباء')),
-                        DropdownMenuItem(value: 'أسمنت', child: Text('أسمنت')),
-                        DropdownMenuItem(value: 'بلك', child: Text('بلك')),
-                        DropdownMenuItem(value: 'مقاول', child: Text('مقاول')),
-                        DropdownMenuItem(value: 'مشرف', child: Text('مشرف')),
+                      items: [
+                        for (final s in serviceCategories)
+                          DropdownMenuItem(value: s, child: Text(s)),
                       ],
-                      onChanged: (v) =>
-                          setState(() => _category = v ?? _category),
+                      onChanged: (v) => setState(() => _category = v ?? _category),
                     ),
                     const SizedBox(height: 16),
                     FilledButton(
