@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class RequestServicePage extends StatefulWidget {
-  const RequestServicePage({super.key});
+  final String? serviceType;
+  const RequestServicePage({super.key, this.serviceType});
 
   @override
   State<RequestServicePage> createState() => _RequestServicePageState();
@@ -14,7 +15,13 @@ class _RequestServicePageState extends State<RequestServicePage> {
   final _phone = TextEditingController();
   final _city = TextEditingController();
   final _details = TextEditingController();
-  String _service = 'سباكة';
+  late String _service;
+
+  @override
+  void initState() {
+    super.initState();
+    _service = widget.serviceType ?? 'سباكة';
+  }
 
   @override
   void dispose() {

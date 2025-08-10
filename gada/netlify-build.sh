@@ -1,15 +1,29 @@
 #!/usr/bin/env bash
 set -euo pipefail
+set -x
 
-FLUTTER_VERSION=3.22.2
+REF="${FLUTTER_VERSION:-stable}"
+REPO="https://github.com/flutter/flutter.git"
+INSTALL_DIR="$HOME/flutter"
 
-echo "Downloading Flutter SDK..."
-curl -L -o flutter_linux.tar.xz "https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_${FLUTTER_VERSION}-stable.tar.xz"
-tar xf flutter_linux.tar.xz
+rm -rf "$INSTALL_DIR"
+git clone --depth 1 --branch stable "$REPO" "$INSTALL_DIR" || git clone --depth 1 "$REPO" "$INSTALL_DIR"
+export PATH="$INSTALL_DIR/bin:$PATH"
 
-export PATH="$PWD/flutter/bin:$PATH"
+# ⬇️ مهم: اشتغل داخل مجلد المشروع الحقيقي
+cd gada
+echo "PWD=$(pwd)"
 
 flutter --version
 flutter config --enable-web
 flutter pub get
-flutter build web -t lib/main_selector_page.dart --release --no-tree-shake-icons
+flutter clean
+
+# ⬇️ ابنِ من main.dart
+flutter build web --release --target=lib/main.dart
+
+# ملفات مساعدة للنشر
+test -f build/web/_redirects || echo "/* /index.html 200" > build/web/_redirects
+cp -f build/web/index.html build/web/404.html
+
+echo "تم بناء التطبيق بنجاح من lib/main.dart"
