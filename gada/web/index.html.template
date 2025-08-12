@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="/">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bunyan Flutter Web App">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Bunyan">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="icon" type="image/png" href="icons/Icon-192.png">
+  <title>Bunyan</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="preload" href="flutter_bootstrap.js" as="script">
+  <script src="flutter_bootstrap.js" async></script>
+  <style>html,body{height:100%;margin:0;background:#fff}</style>
+</head>
+<body>
+  <div id="loading" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:system-ui,Arial,sans-serif;color:#444;">Loading</div>
+</body>
+</html>git mv web/index.html.template web/web_backup/index.html.template || mkdir -p web/web_backup && mv web/index.html.template web/web_backup/ 2>/dev/null
+git mv web/index.modern.html web/web_backup/index.modern.html || mv web/index.modern.html web/web_backup/ 2>/dev/null
+git rm -f web/index.html.bak 2>/dev/null
+
+

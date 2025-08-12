@@ -4,3 +4,7 @@
 .flutter-plugins-dependencies
 .packages
 web/index.html.bak
+node_modules/
+unicorn-demo/node_modules/
+.dart_tool/
+build/
