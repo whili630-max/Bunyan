@@ -1,4 +1,4 @@
-﻿[build]
+[build]
   base = "gada"
   command = "bash -lc 'source ./setup.sh && flutter pub get && flutter build web --release'"
   publish = "build/web"
