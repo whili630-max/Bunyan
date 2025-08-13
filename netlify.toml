@@ -1,6 +1,6 @@
-[build]
-  base = "gada"  # بنبني من داخل مجلد gada
-  command = "bash setup.sh && flutter pub get && flutter build web --release"
+﻿[build]
+  base = "gada"
+  command = "bash -lc 'source ./setup.sh && flutter pub get && flutter build web --release'"
   publish = "build/web"
 
 [build.environment]
